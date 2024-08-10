@@ -26,7 +26,7 @@ exclude_patterns = []
 
 html_theme = "sphinx_book_theme"
 html_theme_options = {
-    "repository_url": "https://github.com/aesara-devs/aesara",
+    "repository_url": "https://github.com/RayenManai/app-sec",
     "use_repository_button": True,
     "use_download_button": True,
 }
