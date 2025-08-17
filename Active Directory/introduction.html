@@ -308,9 +308,7 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -326,18 +324,6 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-enumeration-techniques">🧭 Key Enumeration Techniques</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-commands">🔍 Example Commands</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kerberos-enumeration-as-rep-roasting">Kerberos Enumeration (AS-REP Roasting)</a></li>
-</ul>
-</li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -349,55 +335,6 @@ document.write(`
                   
   <section id="active-directory">
 <h1>Active Directory<a class="headerlink" href="#active-directory" title="Permalink to this heading">#</a></h1>
-<p>Active Directory (AD) is a directory service used in Windows environments to manage users, groups, computers, and resources.<br />
-Enumeration is the <strong>first step</strong> in attacking AD.</p>
-<hr class="docutils" />
-<section id="key-enumeration-techniques">
-<h2>🧭 Key Enumeration Techniques<a class="headerlink" href="#key-enumeration-techniques" title="Permalink to this heading">#</a></h2>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Technique</p></th>
-<th class="head"><p>Tools</p></th>
-<th class="head"><p>Notes</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>LDAP Queries</p></td>
-<td><p>ldapsearch, adfind</p></td>
-<td><p>Extract user/computer info</p></td>
-</tr>
-<tr class="row-odd"><td><p>Kerberos Enumeration</p></td>
-<td><p>kerbrute, Rubeus</p></td>
-<td><p>Identify valid users via AS-REP</p></td>
-</tr>
-<tr class="row-even"><td><p>SMB/NetBIOS</p></td>
-<td><p>smbmap, nbtscan</p></td>
-<td><p>Find shares and sessions</p></td>
-</tr>
-<tr class="row-odd"><td><p>PowerShell Recon</p></td>
-<td><p>PowerView, ADModule</p></td>
-<td><p>Run directly on a compromised host</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<hr class="docutils" />
-<section id="example-commands">
-<h2>🔍 Example Commands<a class="headerlink" href="#example-commands" title="Permalink to this heading">#</a></h2>
-<section id="kerberos-enumeration-as-rep-roasting">
-<h3>Kerberos Enumeration (AS-REP Roasting)<a class="headerlink" href="#kerberos-enumeration-as-rep-roasting" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>impacket-GetNPUsers<span class="w"> </span>domain.local/<span class="w"> </span>-dc-ip<span class="w"> </span><span class="m">10</span>.0.0.5<span class="w"> </span>-usersfile<span class="w"> </span>users.txt<span class="w"> </span>-format<span class="w"> </span>john
-</pre></div>
-</div>
-<figure class="align-center" id="id1">
-<a class="reference internal image-reference" href="../_images/logo.jpg"><img alt="Active Directory Enumeration Diagram" src="../_images/logo.jpg" style="width: 70%;" /></a>
-<figcaption>
-<p><span class="caption-text">Active Directory Enumeration Workflow</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-</section>
-</section>
 </section>
 
 
@@ -435,25 +372,6 @@ Enumeration is the <strong>first step</strong> in attacking AD.</p>
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-enumeration-techniques">🧭 Key Enumeration Techniques</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-commands">🔍 Example Commands</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kerberos-enumeration-as-rep-roasting">Kerberos Enumeration (AS-REP Roasting)</a></li>
-</ul>
-</li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
