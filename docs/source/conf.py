@@ -33,5 +33,5 @@ html_theme_options = {
     "use_download_button": True,
 }
 html_title = "MyHackBook"
-html_logo = "images/logo.jpg"
+html_logo = ""
 html_static_path = ['_static']
