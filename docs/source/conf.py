@@ -6,15 +6,17 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Application Security Learning'
-copyright = '2024, Rayen Manai'
+project = 'My Hack Book'
+copyright = '2025, Rayen Manai'
 author = 'Rayen Manai'
 release = '0.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = []
+extensions = [
+    "myst_parser",
+]
 
 templates_path = ['_templates']
 exclude_patterns = []
@@ -26,10 +28,10 @@ exclude_patterns = []
 
 html_theme = "sphinx_book_theme"
 html_theme_options = {
-    "repository_url": "https://github.com/RayenManai/app-sec",
+    "repository_url": "https://github.com/RayenManai/MyHackBook",
     "use_repository_button": True,
     "use_download_button": True,
 }
-html_title = ""
+html_title = "MyHackBook"
 html_logo = "images/logo.jpg"
 html_static_path = ['_static']
