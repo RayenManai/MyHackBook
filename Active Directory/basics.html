@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Active Directory &#8212; MyHackBook</title>
+    <title>Basics &#8212; MyHackBook</title>
   
   
   
@@ -40,7 +40,7 @@
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/introduction';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/basics';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Web App Pentesting" href="../Web%20App%20Pentesting/index.html" />
@@ -131,14 +131,8 @@
   
   
   
-    
-    
-      
-    
-    
-    <img src="../_static/logo.jpg" class="logo__image only-light" alt="MyHackBook - Home"/>
-    <script>document.write(`<img src="../_static/logo.jpg" class="logo__image only-dark" alt="MyHackBook - Home"/>`);</script>
   
+    <p class="title logo__title">MyHackBook</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -158,7 +152,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../start-here.html">-&gt; Start Here</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Active Directory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Active Directory</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Basics</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Web%20App%20Pentesting/index.html">Web App Pentesting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -237,7 +231,7 @@
       
       
       
-      <li><a href="../_sources/Active Directory/introduction.md" target="_blank"
+      <li><a href="../_sources/Active Directory/basics.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -308,7 +302,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -319,11 +315,26 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Active Directory</h1>
+    <h1>Basics</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#terminology">Terminology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ad-components">AD Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-components">Physical Components</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-components">Logical Components</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -333,8 +344,83 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="active-directory">
-<h1>Active Directory<a class="headerlink" href="#active-directory" title="Permalink to this heading">#</a></h1>
+  <section id="basics">
+<h1>Basics<a class="headerlink" href="#basics" title="Permalink to this heading">#</a></h1>
+<p>Active Directory is the most used solution for the management of devices and users in corporate environments, as it allows for a centralised administration.</p>
+<section id="terminology">
+<h2>Terminology<a class="headerlink" href="#terminology" title="Permalink to this heading">#</a></h2>
+<p>A group of users and computers represent a <strong>Windows Domain</strong> (an administrative boundary). These components are managed in a repository called <strong>Active Directory (AD)</strong>. <strong>The Domain Controller (DC)</strong> is the server that runs the AD services.
+<strong>Active Directory Domain Services (AD DS)</strong> is like a phone book that store information about all the components of the network (users, groups, machines …)</p>
+<ul class="simple">
+<li><p><strong>Users</strong>: Generally persons in the organisation (employees), or services (MSSQL)</p></li>
+<li><p><strong>Machines</strong>: Each computer that joins the domain is respresented through a machine object. They are assigned a machine account, its name is the machine name followed by a dollar sign (local administrator on the computer). Machines are often devided into the following categories: Workstations (device utilized by users for daily work, no privileged user should sign), Servers (provide services) and Domain Controllers (manage the domain)</p></li>
+<li><p><strong>Security Groups</strong>: user and/or machine groups that can be granted specific privileges. The most important ones are:</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Security Group</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Domain Admins</p></td>
+<td><p>administrative privileges over the entire domain</p></td>
+</tr>
+<tr class="row-odd"><td><p>Domain Controllers</p></td>
+<td><p>all DCs of the domain</p></td>
+</tr>
+<tr class="row-even"><td><p>Domain Users</p></td>
+<td><p>all user accounts in the domain</p></td>
+</tr>
+<tr class="row-odd"><td><p>Domain Computers</p></td>
+<td><p>all computers in the domain</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="ad-components">
+<h2>AD Components<a class="headerlink" href="#ad-components" title="Permalink to this heading">#</a></h2>
+<section id="physical-components">
+<h3>Physical Components<a class="headerlink" href="#physical-components" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Domain Controllers</strong>: a server running windows server Operating System and having active directory installed. It hosts the “phone book”. Their main functionalities are:</p>
+<ul class="simple">
+<li><p>Hosting a copy of the AD DS store</p></li>
+<li><p>Providing authentication and authorization services</p></li>
+<li><p>Allowing administrative access to manage resources</p></li>
+</ul>
+</li>
+<li><p><strong>AD DS Data Store</strong>: the directory store stores all the data of its domain controller. It contains the <code class="docutils literal notranslate"><span class="pre">NTDS.dit</span></code> file. It is only accessed through the DC.</p></li>
+</ol>
+</section>
+<section id="logical-components">
+<h3>Logical Components<a class="headerlink" href="#logical-components" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>AD DS schema</strong>: defines every type of object that can be stored in the directory.</p></li>
+<li><p><strong>Organizational Units</strong>: AD containers that can group users, groups, computers and other OUs. They are mainly used to apply policies, whereas security groups are used to grant permissions. Policies are managed via <strong>Group Policy Objects (GPO)</strong>.</p></li>
+<li><p><strong>Trees</strong>: A hierarchy of domains in AD DS that share the same namespace with the parent domain. This comes handy for large organizations that manage multiple domains independently (for example different countries/regulations). Domains in a tree create by default a two-way transitive trust.</p></li>
+<li><p><strong>Forests</strong>: A collection of one or more domain trees. This comes handy when two companies merge for example or need to cooperate (each with its domain tree). This union of trees with different namespaces into the same network creates the forest.</p></li>
+</ol>
+</section>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h2>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/AD_structure.png"><img alt="Active Directory Forest Example" src="../_images/AD_structure.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">Active Directory Forest Example</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this heading">#</a></h2>
+<p>Credentials are stored in the Domain Controllers. Inorder to authenticate a user, two protocols can be mainly used:</p>
+<ol class="arabic simple">
+<li><p><strong>Kerberos</strong>: This is the default protocol. It relies on tickets and mutual authentication.</p></li>
+<li><p><strong>NetNTLM</strong>: Legacy protocol based on a challenge-response mechanism.</p></li>
+</ol>
+</section>
 </section>
 
 
@@ -372,6 +458,28 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#terminology">Terminology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ad-components">AD Components</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#physical-components">Physical Components</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-components">Logical Components</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
