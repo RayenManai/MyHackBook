@@ -55,6 +55,58 @@ Active Directory Forest Example
 
 Credentials are stored in the Domain Controllers. Inorder to authenticate a user, two protocols can be mainly used:
 
-1. **Kerberos**: This is the default protocol. It relies on tickets and mutual authentication.
+#### Kerberos
 
-2. **NetNTLM**: Legacy protocol based on a challenge-response mechanism.
+This is the default protocol. It relies on tickets and mutual authentication.
+
+```{figure} ../_static/AD/krb-auth.png
+:alt: Sequence Diagram of Kerberos Authentication
+:width: 100%
+:align: center
+
+Kerberos Authentication Protocol
+
+```
+
+1. Request TGT (AS-REQ): The user sends their username and a timestamp encrypted with a key derived from their password to the KDC’s Authentication Service (AS), requesting a Ticket Granting Ticket (TGT).
+
+2. Receive TGT + Session Key (AS-REP): The KDC validates the request and responds with a TGT (encrypted with the krbtgt account hash) and a Session Key (encrypted with the user’s key), allowing the user to request service tickets without resending their password.
+
+3. Request TGS (TGS-REQ): The user wants to access a specific service, so they send the TGT, the Service Principal Name (SPN) of the target service, and an authenticator encrypted with the Session Key to the KDC’s Ticket Granting Service (TGS).
+
+4. Receive TGS + Service Session Key (TGS-REP): The KDC verifies the TGT and authenticator, then issues a service ticket (TGS) encrypted with the service account’s key, along with a Service Session Key encrypted with the user’s Session Key.
+
+5. Authenticate to Service (AP-REQ / AP-REP): The user presents the service ticket and an authenticator to the target service. The service decrypts the ticket using its account key, verifies the authenticator, and if valid, grants access. Optionally, the service can reply with an AP-REP for mutual authentication.
+
+#### NetNTLM
+
+Legacy protocol based on a challenge-response mechanism.
+
+```{figure} ../_static/AD/ntlm-auth.png
+:alt: Sequence Diagram of NTLM Authentication
+:width: 100%
+:align: center
+
+NTLM Authentication Protocol
+
+```
+
+1. User initiates authentication
+   The client (user’s machine) wants to access a resource on a server. It sends the username to the server in plaintext (no password yet).
+
+2. Server issues a challenge
+   The server generates a random challenge (nonce) and sends it to the client.
+
+3. Client computes the response
+   The client takes the user’s password, applies the MD4 hash function to produce the NT hash, and then encrypts the challenge using this NT hash. This encrypted value is the NTLM response.
+
+4. Server forwards to the Domain Controller (DC)
+   The server doesn’t know if the response is valid, so it forwards the username, the challenge it issued, and the client’s response to a domain controller.
+
+5. Domain Controller verifies
+   The DC looks up the user in Active Directory, retrieves the stored NT hash, and uses it to encrypt the same challenge. If the DC’s result matches the client’s response, authentication succeeds.
+
+- Passwords are never sent over the wire, but the NT hash acts as a “password equivalent.” If an attacker steals the NT hash (via dumping or interception), they can use it directly in pass-the-hash attacks.
+- Unlike Kerberos, NTLM does not bind authentication to a specific service or server, which is why it’s vulnerable to relay attacks.
+
+### LDAP
