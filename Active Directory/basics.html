@@ -348,7 +348,12 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kerberos">Kerberos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#netntlm">NetNTLM</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap">LDAP</a></li>
 </ul>
             </nav>
         </div>
@@ -432,10 +437,52 @@ document.write(`
 <section id="authentication">
 <h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this heading">#</a></h2>
 <p>Credentials are stored in the Domain Controllers. Inorder to authenticate a user, two protocols can be mainly used:</p>
+<section id="kerberos">
+<h3>Kerberos<a class="headerlink" href="#kerberos" title="Permalink to this heading">#</a></h3>
+<p>This is the default protocol. It relies on tickets and mutual authentication.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/krb-auth.png"><img alt="Sequence Diagram of Kerberos Authentication" src="../_images/krb-auth.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">Kerberos Authentication Protocol</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <ol class="arabic simple">
-<li><p><strong>Kerberos</strong>: This is the default protocol. It relies on tickets and mutual authentication.</p></li>
-<li><p><strong>NetNTLM</strong>: Legacy protocol based on a challenge-response mechanism.</p></li>
+<li><p>Request TGT (AS-REQ): The user sends their username and a timestamp encrypted with a key derived from their password to the KDC’s Authentication Service (AS), requesting a Ticket Granting Ticket (TGT).</p></li>
+<li><p>Receive TGT + Session Key (AS-REP): The KDC validates the request and responds with a TGT (encrypted with the krbtgt account hash) and a Session Key (encrypted with the user’s key), allowing the user to request service tickets without resending their password.</p></li>
+<li><p>Request TGS (TGS-REQ): The user wants to access a specific service, so they send the TGT, the Service Principal Name (SPN) of the target service, and an authenticator encrypted with the Session Key to the KDC’s Ticket Granting Service (TGS).</p></li>
+<li><p>Receive TGS + Service Session Key (TGS-REP): The KDC verifies the TGT and authenticator, then issues a service ticket (TGS) encrypted with the service account’s key, along with a Service Session Key encrypted with the user’s Session Key.</p></li>
+<li><p>Authenticate to Service (AP-REQ / AP-REP): The user presents the service ticket and an authenticator to the target service. The service decrypts the ticket using its account key, verifies the authenticator, and if valid, grants access. Optionally, the service can reply with an AP-REP for mutual authentication.</p></li>
 </ol>
+</section>
+<section id="netntlm">
+<h3>NetNTLM<a class="headerlink" href="#netntlm" title="Permalink to this heading">#</a></h3>
+<p>Legacy protocol based on a challenge-response mechanism.</p>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/ntlm-auth.png"><img alt="Sequence Diagram of NTLM Authentication" src="../_images/ntlm-auth.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">NTLM Authentication Protocol</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<ol class="arabic simple">
+<li><p>User initiates authentication
+The client (user’s machine) wants to access a resource on a server. It sends the username to the server in plaintext (no password yet).</p></li>
+<li><p>Server issues a challenge
+The server generates a random challenge (nonce) and sends it to the client.</p></li>
+<li><p>Client computes the response
+The client takes the user’s password, applies the MD4 hash function to produce the NT hash, and then encrypts the challenge using this NT hash. This encrypted value is the NTLM response.</p></li>
+<li><p>Server forwards to the Domain Controller (DC)
+The server doesn’t know if the response is valid, so it forwards the username, the challenge it issued, and the client’s response to a domain controller.</p></li>
+<li><p>Domain Controller verifies
+The DC looks up the user in Active Directory, retrieves the stored NT hash, and uses it to encrypt the same challenge. If the DC’s result matches the client’s response, authentication succeeds.</p></li>
+</ol>
+<ul class="simple">
+<li><p>Passwords are never sent over the wire, but the NT hash acts as a “password equivalent.” If an attacker steals the NT hash (via dumping or interception), they can use it directly in pass-the-hash attacks.</p></li>
+<li><p>Unlike Kerberos, NTLM does not bind authentication to a specific service or server, which is why it’s vulnerable to relay attacks.</p></li>
+</ul>
+</section>
+</section>
+<section id="ldap">
+<h2>LDAP<a class="headerlink" href="#ldap" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -491,7 +538,12 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kerberos">Kerberos</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#netntlm">NetNTLM</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ldap">LDAP</a></li>
 </ul>
   </nav></div>
 

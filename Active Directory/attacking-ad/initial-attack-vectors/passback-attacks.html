@@ -318,7 +318,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -334,6 +336,21 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-intended-functionality">What is the intended functionality?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-walkthrough">Attack Walkthrough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -345,6 +362,73 @@ document.write(`
                   
   <section id="passback-attacks">
 <h1>Passback Attacks<a class="headerlink" href="#passback-attacks" title="Permalink to this heading">#</a></h1>
+<section id="what-is-the-intended-functionality">
+<h2>What is the intended functionality?<a class="headerlink" href="#what-is-the-intended-functionality" title="Permalink to this heading">#</a></h2>
+<p>Network devices such as printers, scanners, or other appliances use LDAP authentication to validate users or access Active Directory services. These devices store credentials and automatically authenticate to the LDAP server when a user interacts with them, for example, to print documents or allow secure network access. The intended functionality is to simplify management and enforce centralized authentication. The LDAP settings are usually accessible via the device’s web-based configuration page, which can be reached by connecting to the device’s IP address in a browser. Access typically requires administrative credentials, which are often left at default values like admin:admin.</p>
+</section>
+<section id="what-can-go-wrong-here">
+<h2>What can go wrong here?<a class="headerlink" href="#what-can-go-wrong-here" title="Permalink to this heading">#</a></h2>
+<p>If an attacker gains access to the device’s configuration page, they can modify LDAP parameters, such as changing the server IP to a rogue LDAP server under their control. The device will then transmit its stored credentials to the attacker, who can capture them in plaintext if insecure authentication methods are used.</p>
+</section>
+<section id="attack-requirements">
+<h2>Attack requirements<a class="headerlink" href="#attack-requirements" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Access to a network device’s configuration, typically via default credentials (admin:admin) or compromised accounts.</p></li>
+<li><p>Ability to modify LDAP parameters (e.g., IP/hostname of the LDAP server).</p></li>
+<li><p>Control over a rogue LDAP server that can accept insecure authentication methods (PLAIN/LOGIN).</p></li>
+<li><p>Internal network access so the device can reach the rogue server.</p></li>
+</ul>
+</section>
+<section id="attack-walkthrough">
+<h2>Attack Walkthrough<a class="headerlink" href="#attack-walkthrough" title="Permalink to this heading">#</a></h2>
+<ol class="arabic">
+<li><p>Gain access to the device configuration page</p></li>
+<li><p>Redirect the LDAP server to a rogue server</p>
+<ul class="simple">
+<li><p>Set the LDAP server IP in the device configuration to your attack machine.</p></li>
+<li><p>Start a simple listener (e.g., nc -lvp 389) to test connectivity.</p></li>
+<li><p>Note: A plain Netcat listener may fail to capture credentials if the device negotiates a secure authentication method.</p></li>
+</ul>
+</li>
+<li><p>Host and configure a rogue LDAP server</p>
+<ul>
+<li><p>Install OpenLDAP and configure it to match the target domain.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">slapd</span> <span class="n">ldap</span><span class="o">-</span><span class="n">utils</span>
+</pre></div>
+</div>
+</li>
+<li><p>Downgrade authentication mechanisms to allow insecure methods (PLAIN/LOGIN) by creating an LDIF file (weak.ldif) and applying it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">ldapmodify</span> <span class="o">-</span><span class="n">Y</span> <span class="n">EXTERNAL</span> <span class="o">-</span><span class="n">H</span> <span class="n">ldapi</span><span class="p">:</span><span class="o">//</span> <span class="o">-</span><span class="n">f</span> <span class="o">./</span><span class="n">weak</span><span class="o">.</span><span class="n">ldif</span>
+<span class="n">sudo</span> <span class="n">service</span> <span class="n">slapd</span> <span class="n">restart</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Capture credentials</p>
+<ul class="simple">
+<li><p>The device now authenticates to your rogue LDAP server using the downgraded, insecure method.</p></li>
+<li><p>Capture credentials in plaintext using tcpdump or another network sniffer:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">tcpdump</span> <span class="o">-</span><span class="n">SX</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">interface</span><span class="o">&gt;</span> <span class="n">tcp</span> <span class="n">port</span> <span class="mi">389</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="mitigations">
+<h2>Mitigations<a class="headerlink" href="#mitigations" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Change default passwords on all network devices and management interfaces.</p></li>
+<li><p>Enforce secure LDAP authentication (e.g., LDAPS, strong SASL mechanisms).</p></li>
+</ul>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.mindpointgroup.com/blog/how-to-hack-through-a-pass-back-attack">https://www.mindpointgroup.com/blog/how-to-hack-through-a-pass-back-attack</a></p></li>
+</ul>
+</section>
+</section>
 </section>
 
 
@@ -382,6 +466,28 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-intended-functionality">What is the intended functionality?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-walkthrough">Attack Walkthrough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
