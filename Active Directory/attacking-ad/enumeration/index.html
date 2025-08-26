@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Passback Attacks &#8212; MyHackBook</title>
+    <title>Enumeration &#8212; MyHackBook</title>
   
   
   
@@ -40,11 +40,11 @@
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/initial-attack-vectors/passback-attacks';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/enumeration/index';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Enumeration" href="../enumeration/index.html" />
-    <link rel="prev" title="IPv6 Attacks" href="ipv6-attacks.html" />
+    <link rel="next" title="Credentials Injection" href="credentials-injection.html" />
+    <link rel="prev" title="Passback Attacks" href="../initial-attack-vectors/passback-attacks.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -160,18 +160,18 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Active Directory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../basics.html">Basics</a></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Attacking AD</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Initial Attack Vectors</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="llmnr-poisoning.html">LLMNR Poisoning</a></li>
-<li class="toctree-l4"><a class="reference internal" href="smb-relay.html">SMB Relay</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipv6-attacks.html">IPv6 Attacks</a></li>
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">Passback Attacks</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../initial-attack-vectors/index.html">Initial Attack Vectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/llmnr-poisoning.html">LLMNR Poisoning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/smb-relay.html">SMB Relay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/ipv6-attacks.html">IPv6 Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/passback-attacks.html">Passback Attacks</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../enumeration/index.html">Enumeration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../enumeration/credentials-injection.html">Credentials Injection</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../enumeration/manual-enumeration.html">Manual Enumeration Techniques</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../enumeration/enumeration-with-ldapdomaindump.html">Enumeration with ldapdomaindump</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../enumeration/enumeration-with-bloodhound.html">Enumeration with Bloodhound</a></li>
+<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">Enumeration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="credentials-injection.html">Credentials Injection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual-enumeration.html">Manual Enumeration Techniques</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enumeration-with-ldapdomaindump.html">Enumeration with ldapdomaindump</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enumeration-with-bloodhound.html">Enumeration with Bloodhound</a></li>
 </ul>
 </details></li>
 </ul>
@@ -254,7 +254,7 @@
       
       
       
-      <li><a href="../../../_sources/Active Directory/attacking-ad/initial-attack-vectors/passback-attacks.md" target="_blank"
+      <li><a href="../../../_sources/Active Directory/attacking-ad/enumeration/index.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -338,7 +338,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Passback Attacks</h1>
+    <h1>Enumeration</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -348,14 +348,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-intended-functionality">What is the intended functionality?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack requirements</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-walkthrough">Attack Walkthrough</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-position-and-goals">Starting Position and Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">Methodology</a></li>
 </ul>
             </nav>
         </div>
@@ -367,74 +361,32 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="passback-attacks">
-<h1>Passback Attacks<a class="headerlink" href="#passback-attacks" title="Permalink to this heading">#</a></h1>
-<section id="what-is-the-intended-functionality">
-<h2>What is the intended functionality?<a class="headerlink" href="#what-is-the-intended-functionality" title="Permalink to this heading">#</a></h2>
-<p>Network devices such as printers, scanners, or other appliances use LDAP authentication to validate users or access Active Directory services. These devices store credentials and automatically authenticate to the LDAP server when a user interacts with them, for example, to print documents or allow secure network access. The intended functionality is to simplify management and enforce centralized authentication. The LDAP settings are usually accessible via the device’s web-based configuration page, which can be reached by connecting to the device’s IP address in a browser. Access typically requires administrative credentials, which are often left at default values like admin:admin.</p>
+  <section id="enumeration">
+<h1>Enumeration<a class="headerlink" href="#enumeration" title="Permalink to this heading">#</a></h1>
+<section id="starting-position-and-goals">
+<h2>Starting Position and Goals<a class="headerlink" href="#starting-position-and-goals" title="Permalink to this heading">#</a></h2>
+<p>The starting position for this step is that the attacker has already obtained a foothold in the internal network, by compromising one machine or account. At this stage, the attacker has the possibility to enumerate various details about the Domain even with low-priveleged access.</p>
+<p>The goal of this step is to map the Active Directory environment: identify users, groups, computers, domain controllers, trusts, and privilege delegation paths. Enumeration provides the roadmap for lateral movement and privilege escalation by uncovering high-value targets (e.g., Domain Admins, service accounts, …). Moreover you never know what low hanging fruit can just be waiting there (credentials in description …)</p>
 </section>
-<section id="what-can-go-wrong-here">
-<h2>What can go wrong here?<a class="headerlink" href="#what-can-go-wrong-here" title="Permalink to this heading">#</a></h2>
-<p>If an attacker gains access to the device’s configuration page, they can modify LDAP parameters, such as changing the server IP to a rogue LDAP server under their control. The device will then transmit its stored credentials to the attacker, who can capture them in plaintext if insecure authentication methods are used.</p>
-</section>
-<section id="attack-requirements">
-<h2>Attack requirements<a class="headerlink" href="#attack-requirements" title="Permalink to this heading">#</a></h2>
+<section id="methodology">
+<h2>Methodology<a class="headerlink" href="#methodology" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Access to a network device’s configuration, typically via default credentials (admin:admin) or compromised accounts.</p></li>
-<li><p>Ability to modify LDAP parameters (e.g., IP/hostname of the LDAP server).</p></li>
-<li><p>Control over a rogue LDAP server that can accept insecure authentication methods (PLAIN/LOGIN).</p></li>
-<li><p>Internal network access so the device can reach the rogue server.</p></li>
+<li><p>Identify Domain Information</p></li>
+<li><p>Enumerate Users and Groups</p></li>
+<li><p>Enumerate Computers and Domain Controllers</p></li>
+<li><p>Enumerate Trust Relationships</p></li>
+<li><p>Enumerate Service Accounts</p></li>
+<li><p>Use Automated Enumeration Tools</p></li>
+<li><p>Document Findings and Paths</p></li>
 </ul>
-</section>
-<section id="attack-walkthrough">
-<h2>Attack Walkthrough<a class="headerlink" href="#attack-walkthrough" title="Permalink to this heading">#</a></h2>
-<ol class="arabic">
-<li><p>Gain access to the device configuration page</p></li>
-<li><p>Redirect the LDAP server to a rogue server</p>
-<ul class="simple">
-<li><p>Set the LDAP server IP in the device configuration to your attack machine.</p></li>
-<li><p>Start a simple listener (e.g., nc -lvp 389) to test connectivity.</p></li>
-<li><p>Note: A plain Netcat listener may fail to capture credentials if the device negotiates a secure authentication method.</p></li>
-</ul>
-</li>
-<li><p>Host and configure a rogue LDAP server</p>
+<div class="toctree-wrapper compound">
 <ul>
-<li><p>Install OpenLDAP and configure it to match the target domain.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">slapd</span> <span class="n">ldap</span><span class="o">-</span><span class="n">utils</span>
-</pre></div>
+<li class="toctree-l1"><a class="reference internal" href="credentials-injection.html">Credentials Injection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual-enumeration.html">Manual Enumeration Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enumeration-with-ldapdomaindump.html">Enumeration with ldapdomaindump</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enumeration-with-bloodhound.html">Enumeration with Bloodhound</a></li>
+</ul>
 </div>
-</li>
-<li><p>Downgrade authentication mechanisms to allow insecure methods (PLAIN/LOGIN) by creating an LDIF file (weak.ldif) and applying it:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">ldapmodify</span> <span class="o">-</span><span class="n">Y</span> <span class="n">EXTERNAL</span> <span class="o">-</span><span class="n">H</span> <span class="n">ldapi</span><span class="p">:</span><span class="o">//</span> <span class="o">-</span><span class="n">f</span> <span class="o">./</span><span class="n">weak</span><span class="o">.</span><span class="n">ldif</span>
-<span class="n">sudo</span> <span class="n">service</span> <span class="n">slapd</span> <span class="n">restart</span>
-</pre></div>
-</div>
-</li>
-</ul>
-</li>
-<li><p>Capture credentials</p>
-<ul class="simple">
-<li><p>The device now authenticates to your rogue LDAP server using the downgraded, insecure method.</p></li>
-<li><p>Capture credentials in plaintext using tcpdump or another network sniffer:</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">tcpdump</span> <span class="o">-</span><span class="n">SX</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">interface</span><span class="o">&gt;</span> <span class="n">tcp</span> <span class="n">port</span> <span class="mi">389</span>
-</pre></div>
-</div>
-</li>
-</ol>
-</section>
-<section id="mitigations">
-<h2>Mitigations<a class="headerlink" href="#mitigations" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Change default passwords on all network devices and management interfaces.</p></li>
-<li><p>Enforce secure LDAP authentication (e.g., LDAPS, strong SASL mechanisms).</p></li>
-</ul>
-<section id="references">
-<h3>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><a class="reference external" href="https://www.mindpointgroup.com/blog/how-to-hack-through-a-pass-back-attack">https://www.mindpointgroup.com/blog/how-to-hack-through-a-pass-back-attack</a></p></li>
-</ul>
-</section>
 </section>
 </section>
 
@@ -450,20 +402,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ipv6-attacks.html"
+       href="../initial-attack-vectors/passback-attacks.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">IPv6 Attacks</p>
+        <p class="prev-next-title">Passback Attacks</p>
       </div>
     </a>
     <a class="right-next"
-       href="../enumeration/index.html"
+       href="credentials-injection.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Enumeration</p>
+        <p class="prev-next-title">Credentials Injection</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -483,14 +435,8 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-intended-functionality">What is the intended functionality?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack requirements</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-walkthrough">Attack Walkthrough</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-position-and-goals">Starting Position and Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">Methodology</a></li>
 </ul>
   </nav></div>
 

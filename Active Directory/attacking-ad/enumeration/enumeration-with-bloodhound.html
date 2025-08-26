@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Passback Attacks &#8212; MyHackBook</title>
+    <title>Enumeration with Bloodhound &#8212; MyHackBook</title>
   
   
   
@@ -40,11 +40,11 @@
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/initial-attack-vectors/passback-attacks';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/enumeration/enumeration-with-bloodhound';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Enumeration" href="../enumeration/index.html" />
-    <link rel="prev" title="IPv6 Attacks" href="ipv6-attacks.html" />
+    <link rel="next" title="Web App Pentesting" href="../../../Web%20App%20Pentesting/index.html" />
+    <link rel="prev" title="Enumeration with ldapdomaindump" href="enumeration-with-ldapdomaindump.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -160,18 +160,18 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Active Directory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../basics.html">Basics</a></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Attacking AD</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Initial Attack Vectors</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="llmnr-poisoning.html">LLMNR Poisoning</a></li>
-<li class="toctree-l4"><a class="reference internal" href="smb-relay.html">SMB Relay</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipv6-attacks.html">IPv6 Attacks</a></li>
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">Passback Attacks</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../initial-attack-vectors/index.html">Initial Attack Vectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/llmnr-poisoning.html">LLMNR Poisoning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/smb-relay.html">SMB Relay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/ipv6-attacks.html">IPv6 Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/passback-attacks.html">Passback Attacks</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../enumeration/index.html">Enumeration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../enumeration/credentials-injection.html">Credentials Injection</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../enumeration/manual-enumeration.html">Manual Enumeration Techniques</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../enumeration/enumeration-with-ldapdomaindump.html">Enumeration with ldapdomaindump</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../enumeration/enumeration-with-bloodhound.html">Enumeration with Bloodhound</a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Enumeration</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="credentials-injection.html">Credentials Injection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="manual-enumeration.html">Manual Enumeration Techniques</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enumeration-with-ldapdomaindump.html">Enumeration with ldapdomaindump</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">Enumeration with Bloodhound</a></li>
 </ul>
 </details></li>
 </ul>
@@ -254,7 +254,7 @@
       
       
       
-      <li><a href="../../../_sources/Active Directory/attacking-ad/initial-attack-vectors/passback-attacks.md" target="_blank"
+      <li><a href="../../../_sources/Active Directory/attacking-ad/enumeration/enumeration-with-bloodhound.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -338,7 +338,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Passback Attacks</h1>
+    <h1>Enumeration with Bloodhound</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -348,14 +348,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-intended-functionality">What is the intended functionality?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack requirements</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-walkthrough">Attack Walkthrough</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-it">What is it?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case">Use case</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">Methodology</a></li>
 </ul>
             </nav>
         </div>
@@ -367,74 +362,27 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="passback-attacks">
-<h1>Passback Attacks<a class="headerlink" href="#passback-attacks" title="Permalink to this heading">#</a></h1>
-<section id="what-is-the-intended-functionality">
-<h2>What is the intended functionality?<a class="headerlink" href="#what-is-the-intended-functionality" title="Permalink to this heading">#</a></h2>
-<p>Network devices such as printers, scanners, or other appliances use LDAP authentication to validate users or access Active Directory services. These devices store credentials and automatically authenticate to the LDAP server when a user interacts with them, for example, to print documents or allow secure network access. The intended functionality is to simplify management and enforce centralized authentication. The LDAP settings are usually accessible via the device’s web-based configuration page, which can be reached by connecting to the device’s IP address in a browser. Access typically requires administrative credentials, which are often left at default values like admin:admin.</p>
+  <section id="enumeration-with-bloodhound">
+<h1>Enumeration with Bloodhound<a class="headerlink" href="#enumeration-with-bloodhound" title="Permalink to this heading">#</a></h1>
+<section id="what-is-it">
+<h2>What is it?<a class="headerlink" href="#what-is-it" title="Permalink to this heading">#</a></h2>
+<p>BloodHound is a great AD enumeration tool available. With graph-based visualisation, every AD object (users, groups, computers, ACLs, trusts) becomes a node, and every relationship becomes an edge, allowing attackers and defenders alike to map out potential attack paths.</p>
+<p>Sharphound is the data collection component of BloodHound. It gathers AD information via LDAP queries, SMB, and other protocols, then outputs it as JSON files. These are later ingested into the BloodHound GUI, which uses the Neo4j graph database to display attack paths visually.</p>
 </section>
-<section id="what-can-go-wrong-here">
-<h2>What can go wrong here?<a class="headerlink" href="#what-can-go-wrong-here" title="Permalink to this heading">#</a></h2>
-<p>If an attacker gains access to the device’s configuration page, they can modify LDAP parameters, such as changing the server IP to a rogue LDAP server under their control. The device will then transmit its stored credentials to the attacker, who can capture them in plaintext if insecure authentication methods are used.</p>
+<section id="use-case">
+<h2>Use case<a class="headerlink" href="#use-case" title="Permalink to this heading">#</a></h2>
+<p>It allows attackers (and defenders) to see attack paths through the domain, showing which accounts can escalate privileges or access high-value targets. Instead of manually correlating users, groups, and permissions, BloodHound provides a visual map, saving time and reducing errors.</p>
 </section>
-<section id="attack-requirements">
-<h2>Attack requirements<a class="headerlink" href="#attack-requirements" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Access to a network device’s configuration, typically via default credentials (admin:admin) or compromised accounts.</p></li>
-<li><p>Ability to modify LDAP parameters (e.g., IP/hostname of the LDAP server).</p></li>
-<li><p>Control over a rogue LDAP server that can accept insecure authentication methods (PLAIN/LOGIN).</p></li>
-<li><p>Internal network access so the device can reach the rogue server.</p></li>
-</ul>
-</section>
-<section id="attack-walkthrough">
-<h2>Attack Walkthrough<a class="headerlink" href="#attack-walkthrough" title="Permalink to this heading">#</a></h2>
-<ol class="arabic">
-<li><p>Gain access to the device configuration page</p></li>
-<li><p>Redirect the LDAP server to a rogue server</p>
-<ul class="simple">
-<li><p>Set the LDAP server IP in the device configuration to your attack machine.</p></li>
-<li><p>Start a simple listener (e.g., nc -lvp 389) to test connectivity.</p></li>
-<li><p>Note: A plain Netcat listener may fail to capture credentials if the device negotiates a secure authentication method.</p></li>
-</ul>
-</li>
-<li><p>Host and configure a rogue LDAP server</p>
-<ul>
-<li><p>Install OpenLDAP and configure it to match the target domain.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">slapd</span> <span class="n">ldap</span><span class="o">-</span><span class="n">utils</span>
-</pre></div>
-</div>
-</li>
-<li><p>Downgrade authentication mechanisms to allow insecure methods (PLAIN/LOGIN) by creating an LDIF file (weak.ldif) and applying it:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">ldapmodify</span> <span class="o">-</span><span class="n">Y</span> <span class="n">EXTERNAL</span> <span class="o">-</span><span class="n">H</span> <span class="n">ldapi</span><span class="p">:</span><span class="o">//</span> <span class="o">-</span><span class="n">f</span> <span class="o">./</span><span class="n">weak</span><span class="o">.</span><span class="n">ldif</span>
-<span class="n">sudo</span> <span class="n">service</span> <span class="n">slapd</span> <span class="n">restart</span>
-</pre></div>
-</div>
-</li>
-</ul>
-</li>
-<li><p>Capture credentials</p>
-<ul class="simple">
-<li><p>The device now authenticates to your rogue LDAP server using the downgraded, insecure method.</p></li>
-<li><p>Capture credentials in plaintext using tcpdump or another network sniffer:</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">tcpdump</span> <span class="o">-</span><span class="n">SX</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">interface</span><span class="o">&gt;</span> <span class="n">tcp</span> <span class="n">port</span> <span class="mi">389</span>
-</pre></div>
-</div>
-</li>
+<section id="methodology">
+<h2>Methodology<a class="headerlink" href="#methodology" title="Permalink to this heading">#</a></h2>
+<p><strong>Starting Position:</strong> From a Windows domain-joined machine (noisy and likely detected by AV/EDR) or a Windows machine with injected AD credentials via runas /netonly (preferred option as we control this machine and can easily deactivate AV or make exceptions)</p>
+<ol class="arabic simple">
+<li><p>Run Sharphound on the Windows machine using desired collection methods (e.g., All or Session) to enumerate AD objects.</p></li>
+<li><p>Retrieve the ZIP output file containing JSON data.</p></li>
+<li><p>Import the ZIP into BloodHound GUI connected to Neo4j.</p></li>
+<li><p>Visualize nodes and edges, explore group memberships, sessions, and privileges.</p></li>
+<li><p>Identify attack paths from your current position to high-value targets (e.g., Domain Admins).</p></li>
 </ol>
-</section>
-<section id="mitigations">
-<h2>Mitigations<a class="headerlink" href="#mitigations" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Change default passwords on all network devices and management interfaces.</p></li>
-<li><p>Enforce secure LDAP authentication (e.g., LDAPS, strong SASL mechanisms).</p></li>
-</ul>
-<section id="references">
-<h3>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><a class="reference external" href="https://www.mindpointgroup.com/blog/how-to-hack-through-a-pass-back-attack">https://www.mindpointgroup.com/blog/how-to-hack-through-a-pass-back-attack</a></p></li>
-</ul>
-</section>
 </section>
 </section>
 
@@ -450,20 +398,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ipv6-attacks.html"
+       href="enumeration-with-ldapdomaindump.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">IPv6 Attacks</p>
+        <p class="prev-next-title">Enumeration with ldapdomaindump</p>
       </div>
     </a>
     <a class="right-next"
-       href="../enumeration/index.html"
+       href="../../../Web%20App%20Pentesting/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Enumeration</p>
+        <p class="prev-next-title">Web App Pentesting</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -483,14 +431,9 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-intended-functionality">What is the intended functionality?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack requirements</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-walkthrough">Attack Walkthrough</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-it">What is it?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case">Use case</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">Methodology</a></li>
 </ul>
   </nav></div>
 
