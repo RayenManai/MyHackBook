@@ -28,7 +28,6 @@ SMB (Server Message Block) is a network file-sharing protocol primarily used in 
 :align: center
 
 Relay Attack
-
 ```
 
 ### Attack Requirements

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Writeups &#8212; MyHackBook</title>
+    <title>Pass Attacks with Mimikatz &#8212; MyHackBook</title>
   
   
   
@@ -18,32 +18,33 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=a75df0fd"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Writeups/index';</script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Blogs" href="../Blogs/index.html" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=a75df0fd"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/post-compromise-attacks/mimikatz';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Kerberoasting" href="kerberoasting.html" />
+    <link rel="prev" title="Pass Attacks" href="pass-attacks.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -75,7 +76,7 @@
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
-      action="../search.html"
+      action="../../../search.html"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -124,7 +125,7 @@
     
   
 
-<a class="navbar-brand logo" href="../index.html">
+<a class="navbar-brand logo" href="../../../index.html">
   
   
   
@@ -135,8 +136,8 @@
       
     
     
-    <img src="../_static/Logo.png" class="logo__image only-light" alt="MyHackBook - Home"/>
-    <script>document.write(`<img src="../_static/Logo.png" class="logo__image only-dark" alt="MyHackBook - Home"/>`);</script>
+    <img src="../../../_static/Logo.png" class="logo__image only-light" alt="MyHackBook - Home"/>
+    <script>document.write(`<img src="../../../_static/Logo.png" class="logo__image only-dark" alt="MyHackBook - Home"/>`);</script>
   
   
 </a></div>
@@ -155,42 +156,42 @@
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../start-here.html">-&gt; Start Here</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Active%20Directory/index.html">Active Directory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Active%20Directory/basics.html">Basics</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../Active%20Directory/attacking-ad/index.html">Attacking AD</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../Active%20Directory/attacking-ad/initial-attack-vectors/index.html">Initial Attack Vectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/initial-attack-vectors/llmnr-poisoning.html">LLMNR Poisoning</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/initial-attack-vectors/smb-relay.html">SMB Relay</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/initial-attack-vectors/ipv6-attacks.html">IPv6 Attacks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/initial-attack-vectors/passback-attacks.html">Passback Attacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../start-here.html">-&gt; Start Here</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Active Directory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../basics.html">Basics</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Attacking AD</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="../initial-attack-vectors/index.html">Initial Attack Vectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/llmnr-poisoning.html">LLMNR Poisoning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/smb-relay.html">SMB Relay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/ipv6-attacks.html">IPv6 Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/passback-attacks.html">Passback Attacks</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../Active%20Directory/attacking-ad/enumeration/index.html">Enumeration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/enumeration/credentials-injection.html">Credentials Injection</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/enumeration/manual-enumeration.html">Manual Enumeration Techniques</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/enumeration/enumeration-with-ldapdomaindump.html">Enumeration with ldapdomaindump</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/enumeration/enumeration-with-bloodhound.html">Enumeration with Bloodhound</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../enumeration/index.html">Enumeration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../enumeration/credentials-injection.html">Credentials Injection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../enumeration/manual-enumeration.html">Manual Enumeration Techniques</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../enumeration/enumeration-with-ldapdomaindump.html">Enumeration with ldapdomaindump</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../enumeration/enumeration-with-bloodhound.html">Enumeration with Bloodhound</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../Active%20Directory/attacking-ad/post-compromise-attacks/index.html">Post Compromise Attacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/post-compromise-attacks/pass-attacks.html">Pass Attacks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/post-compromise-attacks/mimikatz.html">Pass Attacks with Mimikatz</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/post-compromise-attacks/kerberoasting.html">Kerberoasting</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../Active%20Directory/attacking-ad/post-compromise-attacks/token-impersonation.html">Token Impersonation</a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Post Compromise Attacks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pass-attacks.html">Pass Attacks</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">Pass Attacks with Mimikatz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kerberoasting.html">Kerberoasting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="token-impersonation.html">Token Impersonation</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Web%20App%20Pentesting/index.html">Web App Pentesting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Web%20App%20Pentesting/xss.html">Cross-Site Scripting (XSS)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../Web%20App%20Pentesting/index.html">Web App Pentesting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Web%20App%20Pentesting/xss.html">Cross-Site Scripting (XSS)</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../Scripts%20and%20Tools/index.html">Scripts and Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Blogs/index.html">Blogs</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Writeups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Scripts%20and%20Tools/index.html">Scripts and Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Blogs/index.html">Blogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Writeups/index.html">Writeups</a></li>
 </ul>
 
     </div>
@@ -260,7 +261,7 @@
       
       
       
-      <li><a href="../_sources/Writeups/index.md" target="_blank"
+      <li><a href="../../../_sources/Active Directory/attacking-ad/post-compromise-attacks/mimikatz.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -342,7 +343,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Writeups</h1>
+    <h1>Pass Attacks with Mimikatz</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -356,8 +357,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="writeups">
-<h1>Writeups<a class="headerlink" href="#writeups" title="Permalink to this heading">#</a></h1>
+  <section id="pass-attacks-with-mimikatz">
+<h1>Pass Attacks with Mimikatz<a class="headerlink" href="#pass-attacks-with-mimikatz" title="Permalink to this heading">#</a></h1>
 </section>
 
 
@@ -372,13 +373,22 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../Blogs/index.html"
+       href="pass-attacks.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Blogs</p>
+        <p class="prev-next-title">Pass Attacks</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="kerberoasting.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Kerberoasting</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -430,8 +440,8 @@ By Rayen Manai
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

