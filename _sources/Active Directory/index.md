@@ -6,5 +6,6 @@ This section contains notes on **Active Directory (AD)**, AD breaches, AD enumer
 :maxdepth: 2
 
 basics
+example-lab
 attacking-ad/index
 ```

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Active Directory &#8212; MyHackBook</title>
+    <title>Example AD Lab &#8212; MyHackBook</title>
   
   
   
@@ -43,11 +43,11 @@
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/example-lab';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Basics" href="basics.html" />
-    <link rel="prev" title="Password Attacks 101" href="../Fundamentals/password-attacks.html" />
+    <link rel="next" title="Attacking AD" href="attacking-ad/index.html" />
+    <link rel="prev" title="Basics" href="basics.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -152,9 +152,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../Fundamentals/password-attacks.html">Password Attacks 101</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Active Directory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Active Directory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="basics.html">Basics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example-lab.html">Example AD Lab</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Example AD Lab</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="attacking-ad/index.html">Attacking AD</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="attacking-ad/initial-attack-vectors/index.html">Initial Attack Vectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="attacking-ad/initial-attack-vectors/llmnr-poisoning.html">LLMNR Poisoning</a></li>
@@ -262,7 +262,7 @@
       
       
       
-      <li><a href="../_sources/Active Directory/index.md" target="_blank"
+      <li><a href="../_sources/Active Directory/example-lab.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -325,7 +325,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -336,11 +338,29 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Active Directory</h1>
+    <h1>Example AD Lab</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lab-inventory">Lab inventory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hydra-dc-domain-controller">1. HYDRA-DC (Domain Controller)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thepunisher-windows-10-enterprise">2. THEPUNISHER (Windows 10 Enterprise)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spiderman-windows-10-enterprise">3. SPIDERMAN (Windows 10 Enterprise)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-concept-domain-accounts-vs-local-accounts">Key concept: Domain accounts vs Local accounts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-comparison">Quick comparison</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-tell-account-type-during-enumeration">How to tell account type during enumeration</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -350,33 +370,121 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="active-directory">
-<h1>Active Directory<a class="headerlink" href="#active-directory" title="Link to this heading">#</a></h1>
-<p>This section contains notes on <strong>Active Directory (AD)</strong>, AD breaches, AD enumeration, AD defenses …</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="basics.html">Basics</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="basics.html#terminology">Terminology</a></li>
-<li class="toctree-l2"><a class="reference internal" href="basics.html#ad-components">AD Components</a></li>
-<li class="toctree-l2"><a class="reference internal" href="basics.html#example">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="basics.html#authentication">Authentication</a></li>
-<li class="toctree-l2"><a class="reference internal" href="basics.html#ldap">LDAP</a></li>
+  <section id="example-ad-lab">
+<h1>Example AD Lab<a class="headerlink" href="#example-ad-lab" title="Link to this heading">#</a></h1>
+<p>This document describes the Active Directory lab built on VirtualBox, the machines, accounts, and the distinction between domain and local accounts.</p>
+<section id="lab-inventory">
+<h2>Lab inventory<a class="headerlink" href="#lab-inventory" title="Link to this heading">#</a></h2>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/ad-lab.png"><img alt="Active Directory Lab" src="../_images/ad-lab.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">Active Directory Lab</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="hydra-dc-domain-controller">
+<h3>1. HYDRA-DC (Domain Controller)<a class="headerlink" href="#hydra-dc-domain-controller" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Hostname: HYDRA-DC</p></li>
+<li><p>Role: Domain Controller for <code class="docutils literal notranslate"><span class="pre">MARVEL.local</span></code></p></li>
+<li><p>IP: <code class="docutils literal notranslate"><span class="pre">10.0.2.18</span></code> (static)</p></li>
+<li><p>Important local account: <code class="docutils literal notranslate"><span class="pre">vboxuser</span></code> (VM user) — password <code class="docutils literal notranslate"><span class="pre">P&#64;$$w0rd!</span></code> (local VM account)</p></li>
+<li><p>Domain accounts present and used: <code class="docutils literal notranslate"><span class="pre">MARVEL\\Administrator</span></code> (password: <code class="docutils literal notranslate"><span class="pre">windows</span></code>), Domain Admin <code class="docutils literal notranslate"><span class="pre">Tony</span> <span class="pre">Stark</span></code> (<code class="docutils literal notranslate"><span class="pre">tstark</span></code>, password: <code class="docutils literal notranslate"><span class="pre">Password1234!</span></code>).</p></li>
+<li><p>Service account: <code class="docutils literal notranslate"><span class="pre">MARVEL\\SQLService</span></code> (password: <code class="docutils literal notranslate"><span class="pre">MYpassword123#</span></code>) — used to run a service; an SPN was registered:</p></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="example-lab.html">Example AD Lab</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="example-lab.html#lab-inventory">Lab inventory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example-lab.html#key-concept-domain-accounts-vs-local-accounts">Key concept: Domain accounts vs Local accounts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example-lab.html#how-to-tell-account-type-during-enumeration">How to tell account type during enumeration</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="attacking-ad/index.html">Attacking AD</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="attacking-ad/initial-attack-vectors/index.html">Initial Attack Vectors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="attacking-ad/enumeration/index.html">Enumeration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="attacking-ad/post-compromise-attacks/index.html">Post Compromise Attacks</a></li>
-</ul>
-</li>
-</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>setspn<span class="w"> </span>-a<span class="w"> </span>HYDRA-DC/SQLService.MARVEL.local:60111<span class="w"> </span>MARVEL<span class="se">\\</span>SQLService
+setspn<span class="w"> </span>-T<span class="w"> </span>MARVEL.local<span class="w"> </span>-Q<span class="w"> </span><span class="s2">&quot;*/&quot;</span>
+</pre></div>
 </div>
+<ul class="simple">
+<li><p>File share</p>
+<ul>
+<li><p>SMB share name: <code class="docutils literal notranslate"><span class="pre">hackme</span></code> (hosted on HYDRA-DC)</p></li>
+</ul>
+</li>
+</ul>
+<p>Notes: As a DC there is no local SAM-based Administrator account in the same sense as a standalone Windows machine, administration is via domain accounts.</p>
+</section>
+<section id="thepunisher-windows-10-enterprise">
+<h3>2. THEPUNISHER (Windows 10 Enterprise)<a class="headerlink" href="#thepunisher-windows-10-enterprise" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Hostname: THEPUNISHER</p></li>
+<li><p>Role: Domain-joined workstation</p></li>
+<li><p>IP: <code class="docutils literal notranslate"><span class="pre">10.0.2.16</span></code> (static)</p></li>
+<li><p>DNS: points to domain controller</p></li>
+<li><p>Local VM account: <code class="docutils literal notranslate"><span class="pre">vboxuser</span></code> (password: <code class="docutils literal notranslate"><span class="pre">windows1</span></code>)</p></li>
+<li><p>Domain accounts used to sign in: <code class="docutils literal notranslate"><span class="pre">MARVEL\\administrator</span></code> (password: <code class="docutils literal notranslate"><span class="pre">windows</span></code>)</p></li>
+<li><p>Local <code class="docutils literal notranslate"><span class="pre">Administrator</span></code> enabled with password <code class="docutils literal notranslate"><span class="pre">Password1!</span></code></p></li>
+<li><p>Domain user <code class="docutils literal notranslate"><span class="pre">fcastle</span></code> is configured as a local administrator on this machine.</p></li>
+</ul>
+</section>
+<section id="spiderman-windows-10-enterprise">
+<h3>3. SPIDERMAN (Windows 10 Enterprise)<a class="headerlink" href="#spiderman-windows-10-enterprise" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Hostname: SPIDERMAN</p></li>
+<li><p>Role: Domain-joined workstation</p></li>
+<li><p>IP: <code class="docutils literal notranslate"><span class="pre">10.0.2.17</span></code> (static)</p></li>
+<li><p>DNS: points to domain controller</p></li>
+<li><p>Local VM account: <code class="docutils literal notranslate"><span class="pre">vboxuser</span></code> (password: <code class="docutils literal notranslate"><span class="pre">windows2</span></code>)</p></li>
+<li><p>Domain accounts used to sign in: <code class="docutils literal notranslate"><span class="pre">MARVEL\\administrator</span></code> (password: <code class="docutils literal notranslate"><span class="pre">windows</span></code>)</p></li>
+<li><p>Local <code class="docutils literal notranslate"><span class="pre">Administrator</span></code> enabled with password <code class="docutils literal notranslate"><span class="pre">Password1!</span></code></p></li>
+<li><p>Domain users <code class="docutils literal notranslate"><span class="pre">fcastle</span></code> and <code class="docutils literal notranslate"><span class="pre">pparker</span></code> are configured as local administrators on this machine.</p></li>
+</ul>
+</section>
+</section>
+<section id="key-concept-domain-accounts-vs-local-accounts">
+<h2>Key concept: Domain accounts vs Local accounts<a class="headerlink" href="#key-concept-domain-accounts-vs-local-accounts" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Domain accounts</p>
+<ul>
+<li><p>Authenticated by the domain (Active Directory). Credentials and groups are stored in AD and apply across domain-joined machines.</p></li>
+<li><p>Identifiers commonly appear as <code class="docutils literal notranslate"><span class="pre">DOMAIN\\user</span></code> or <code class="docutils literal notranslate"><span class="pre">user&#64;domain.local</span></code>.</p></li>
+<li><p>Typically used for centralized administration, service accounts, and cross-machine permissions.</p></li>
+</ul>
+</li>
+<li><p>Local accounts</p>
+<ul>
+<li><p>Stored in a machine’s local SAM database. Valid only on that specific machine (except when replicated manually).</p></li>
+<li><p>Identifiers commonly appear as <code class="docutils literal notranslate"><span class="pre">MACHINE_NAME\\user</span></code>.</p></li>
+<li><p>Useful for VM-specific tasks, boot-time access, or recovery when domain is unavailable.</p></li>
+</ul>
+</li>
+</ul>
+<section id="quick-comparison">
+<h3>Quick comparison<a class="headerlink" href="#quick-comparison" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Domain Account</p></th>
+<th class="head"><p>Local Account</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Where authenticated</p></td>
+<td><p>Domain controller (AD)</p></td>
+<td><p>Local machine (SAM)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Scope</p></td>
+<td><p>Any domain-joined machine (with appropriate rights)</p></td>
+<td><p>Single machine only</p></td>
+</tr>
+<tr class="row-even"><td><p>Examples in this lab</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MARVEL\\fcastle</span></code>, <code class="docutils literal notranslate"><span class="pre">MARVEL\\SQLService</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">vboxuser</span></code> on each VM, local <code class="docutils literal notranslate"><span class="pre">Administrator</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="how-to-tell-account-type-during-enumeration">
+<h2>How to tell account type during enumeration<a class="headerlink" href="#how-to-tell-account-type-during-enumeration" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Domain accounts often appear as <code class="docutils literal notranslate"><span class="pre">MARVEL\\user</span></code> or <code class="docutils literal notranslate"><span class="pre">user&#64;MARVEL.local</span></code>.</p></li>
+<li><p>Local accounts appear as <code class="docutils literal notranslate"><span class="pre">MACHINE_NAME\\user</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">THEPUNISHER\\Administrator</span></code>) when enumerating local SAM or <code class="docutils literal notranslate"><span class="pre">net</span> <span class="pre">user</span></code> on that machine.</p></li>
+<li><p>From a domain-joined machine, <code class="docutils literal notranslate"><span class="pre">whoami</span> <span class="pre">/upn</span></code> or <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">%USERDOMAIN%\\%USERNAME%</span></code> show domain-qualified names.</p></li>
+<li><p>On the DC, user accounts are domain accounts, the DC does not use local SAM for user authentication.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -391,20 +499,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../Fundamentals/password-attacks.html"
+       href="basics.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Password Attacks 101</p>
+        <p class="prev-next-title">Basics</p>
       </div>
     </a>
     <a class="right-next"
-       href="basics.html"
+       href="attacking-ad/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Basics</p>
+        <p class="prev-next-title">Attacking AD</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -414,6 +522,33 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lab-inventory">Lab inventory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hydra-dc-domain-controller">1. HYDRA-DC (Domain Controller)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thepunisher-windows-10-enterprise">2. THEPUNISHER (Windows 10 Enterprise)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spiderman-windows-10-enterprise">3. SPIDERMAN (Windows 10 Enterprise)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-concept-domain-accounts-vs-local-accounts">Key concept: Domain accounts vs Local accounts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-comparison">Quick comparison</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-tell-account-type-during-enumeration">How to tell account type during enumeration</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
