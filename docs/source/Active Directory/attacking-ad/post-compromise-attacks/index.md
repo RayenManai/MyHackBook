@@ -40,4 +40,6 @@ pass-attacks
 mimikatz
 kerberoasting
 token-impersonation
+lnk-file-attacks
+gpp-cPassword-attacks
 ```
