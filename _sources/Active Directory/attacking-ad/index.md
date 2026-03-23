@@ -8,4 +8,5 @@ This section contains notes on attacking **Active Directory (AD)**
 initial-attack-vectors/index
 enumeration/index
 post-compromise-attacks/index
+post-domain-compromise-attacks/index
 ```

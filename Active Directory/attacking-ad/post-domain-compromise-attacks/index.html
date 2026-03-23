@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>GPP cPassword Attacks &#8212; MyHackBook</title>
+    <title>Post Domain Compromise Attacks &#8212; MyHackBook</title>
   
   
   
@@ -43,11 +43,11 @@
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/post-compromise-attacks/gpp-cPassword-attacks';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/post-domain-compromise-attacks/index';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Post Domain Compromise Attacks" href="../post-domain-compromise-attacks/index.html" />
-    <link rel="prev" title="LNK File Attacks" href="lnk-file-attacks.html" />
+    <link rel="next" title="Dumping the NTDS.dit" href="ntds-dumping.html" />
+    <link rel="prev" title="GPP cPassword Attacks" href="../post-compromise-attacks/gpp-cPassword-attacks.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -170,18 +170,18 @@
 <li class="toctree-l4"><a class="reference internal" href="../enumeration/enumeration-with-bloodhound.html">Enumeration with Bloodhound</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Post Compromise Attacks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="pass-attacks.html">Pass Attacks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="mimikatz.html">Mimikatz</a></li>
-<li class="toctree-l4"><a class="reference internal" href="kerberoasting.html">Kerberoasting</a></li>
-<li class="toctree-l4"><a class="reference internal" href="token-impersonation.html">Token Impersonation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="lnk-file-attacks.html">LNK File Attacks</a></li>
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">GPP cPassword Attacks</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../post-compromise-attacks/index.html">Post Compromise Attacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/pass-attacks.html">Pass Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/mimikatz.html">Mimikatz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/kerberoasting.html">Kerberoasting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/token-impersonation.html">Token Impersonation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/lnk-file-attacks.html">LNK File Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/gpp-cPassword-attacks.html">GPP cPassword Attacks</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../post-domain-compromise-attacks/index.html">Post Domain Compromise Attacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../post-domain-compromise-attacks/ntds-dumping.html">Dumping the NTDS.dit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../post-domain-compromise-attacks/golden-ticket.html">Golden Ticket</a></li>
+<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">Post Domain Compromise Attacks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="ntds-dumping.html">Dumping the NTDS.dit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="golden-ticket.html">Golden Ticket</a></li>
 </ul>
 </details></li>
 </ul>
@@ -269,7 +269,7 @@
       
       
       
-      <li><a href="../../../_sources/Active Directory/attacking-ad/post-compromise-attacks/gpp-cPassword-attacks.md" target="_blank"
+      <li><a href="../../../_sources/Active Directory/attacking-ad/post-domain-compromise-attacks/index.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -345,7 +345,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>GPP cPassword Attacks</h1>
+    <h1>Post Domain Compromise Attacks</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -355,8 +355,12 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-position-and-goals">Starting Position and Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">Methodology</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maximize-value-to-the-client">Maximize Value to the Client</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#establish-persistence">Establish Persistence</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -368,73 +372,47 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="gpp-cpassword-attacks">
-<h1>GPP cPassword Attacks<a class="headerlink" href="#gpp-cpassword-attacks" title="Link to this heading">#</a></h1>
+  <section id="post-domain-compromise-attacks">
+<h1>Post Domain Compromise Attacks<a class="headerlink" href="#post-domain-compromise-attacks" title="Link to this heading">#</a></h1>
+<section id="starting-position-and-goals">
+<h2>Starting Position and Goals<a class="headerlink" href="#starting-position-and-goals" title="Link to this heading">#</a></h2>
+<p>At this stage, the attacker has achieved complete control over the Active Directory domain. This means:</p>
 <ul class="simple">
-<li><p>Group Policy Preferences (GPP) allowed administrators to create policies with embedded credentials for tasks like service account management.</p></li>
-<li><p>These credentials were encrypted and stored in a “cPassword” field within Group Policy XML files.</p></li>
-<li><p>Microsoft’s encryption key was accidentally released publicly, allowing anyone to decrypt the cPassword values.</p></li>
-<li><p>Patched in MS14-025 (KB2962486), but the patch only prevents creation of new encrypted credentials—it does not remove or decrypt existing vulnerable files.</p></li>
-<li><p>This makes GPP cPassword attacks highly relevant on penetration tests, as legacy deployments often retain old GPP files in SYSVOL.</p></li>
+<li><p>Domain Administrator (DA) access has been obtained.</p></li>
+<li><p>Full compromise of the AD infrastructure is possible.</p></li>
+<li><p>Access to critical assets like domain controllers, file servers, and user accounts is available.</p></li>
 </ul>
-<section id="walkthrough">
-<h2>Walkthrough<a class="headerlink" href="#walkthrough" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Enumerate GPP Files from SYSVOL</p></li>
-</ol>
-<p>Use Metasploit’s <code class="docutils literal notranslate"><span class="pre">smb_enum_gpp</span></code> module to access the SYSVOL of the domain controller and extract Group Policy Preference files:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>msfconsole
-use<span class="w"> </span>auxiliary/scanner/smb/smb_enum_gpp
-<span class="nb">set</span><span class="w"> </span>RHOSTS<span class="w"> </span>&lt;domain_controller_ip&gt;
-<span class="nb">set</span><span class="w"> </span>SMBUser<span class="w"> </span>&lt;domain_user&gt;
-<span class="nb">set</span><span class="w"> </span>SMBPass<span class="w"> </span>&lt;domain_password&gt;
-<span class="nb">set</span><span class="w"> </span>SMBDomain<span class="w"> </span>&lt;domain_name&gt;
-run
-</pre></div>
-</div>
-<p>Alternatively, you can manually mount SYSVOL and search for XML files containing cPassword:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mount<span class="w"> </span>-t<span class="w"> </span>cifs<span class="w"> </span>//&lt;domain_controller&gt;<span class="se">\S</span>YSVOL<span class="w"> </span>/mnt/sysvol<span class="w"> </span>-o<span class="w"> </span><span class="nv">username</span><span class="o">=</span>&lt;user&gt;,password<span class="o">=</span>&lt;pass&gt;
-grep<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;cPassword&quot;</span><span class="w"> </span>/mnt/sysvol
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Decrypt cPassword Values</p></li>
-</ol>
-<p>Once you identify files with cPassword entries, use tools to decrypt them. Common approaches include:</p>
-<ul>
-<li><p><strong>Using Metasploit decrypt module</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>use<span class="w"> </span>post/windows/gather/credentials/credential_collector
-</pre></div>
-</div>
-</li>
-<li><p><strong>Using impacket-Get-GPPPassword</strong> or similar custom tools that implement the known decryption algorithm.</p></li>
-<li><p><strong>Using CyberChef</strong> or <strong>gpp-decrypt</strong> online tools (not recommended for sensitive environments).</p></li>
-</ul>
-<ol class="arabic simple" start="3">
-<li><p>Validate and Use Credentials</p></li>
-</ol>
-<p>Test the decrypted credentials on domain systems:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>crackmapexec<span class="w"> </span>smb<span class="w"> </span>&lt;target_range&gt;<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;decrypted_password&gt;<span class="w"> </span>-d<span class="w"> </span>&lt;domain&gt;
-</pre></div>
-</div>
-<p>Apply lateral movement techniques with the recovered credentials.</p>
+<p>The goals from this position are to maximize the value delivered to the client, establish persistence to maintain access, and demonstrate the full scope of domain compromise.</p>
 </section>
-<section id="mitigations">
-<h2>Mitigations<a class="headerlink" href="#mitigations" title="Link to this heading">#</a></h2>
-<ul>
-<li><p><strong>Apply MS14-025 (KB2962486)</strong>: Patch all systems to prevent creation of new encrypted credentials in Group Policy Preferences. However, this is not sufficient alone.</p></li>
-<li><p><strong>Delete Legacy GPP XML Files</strong>: Manually remove or audit old GPP XML files stored in <code class="docutils literal notranslate"><span class="pre">\\&lt;domain&gt;\SYSVOL\&lt;domain&gt;\Policies\</span></code> that may contain cPassword entries. Use:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all GPP files</span>
-ls<span class="w"> </span>/mnt/sysvol/Policies/*/User/<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;.*\.xml&quot;</span>
-
-<span class="c1"># Audit and remove vulnerable Group Policy Objects</span>
-</pre></div>
-</div>
-</li>
-<li><p><strong>Restrict SYSVOL Access</strong>: Limit read access to SYSVOL to only authorized administrators.</p></li>
-<li><p><strong>Monitor for GPP Enumeration</strong>: Alert on unusual SMB connections to domain controllers and SYSVOL access attempts.</p></li>
-<li><p><strong>Use Group Policy Managed Service Accounts (gMSA)</strong>: Replace embedded credentials with gMSA for service accounts, which have auto-rotating passwords managed by the domain.</p></li>
+<section id="methodology">
+<h2>Methodology<a class="headerlink" href="#methodology" title="Link to this heading">#</a></h2>
+<section id="maximize-value-to-the-client">
+<h3>Maximize Value to the Client<a class="headerlink" href="#maximize-value-to-the-client" title="Link to this heading">#</a></h3>
+<p>With domain compromise, the penetration test enters its final phase of impact assessment. The focus shifts to extracting and demonstrating the maximum value to the client — showing what a true attacker could do with full domain control.</p>
+<p><strong>How?</strong></p>
+<ul class="simple">
+<li><p><strong>Put your blinders on and do it again</strong>: Treat the network as a new hunting ground. Continue enumerating and exploiting, as if this were a fresh engagement, to uncover additional vulnerabilities and high-value targets.</p></li>
+<li><p><strong>Dump NTDS.dit and crack passwords</strong>: Extract the Active Directory database to recover password hashes. Offline cracking can reveal weak passwords and provide further access vectors.</p></li>
+<li><p><strong>Enumerate shares for sensitive information</strong>: Search file servers and shared resources for sensitive data (intellectual property, financial records, credentials, personal information) to demonstrate the scope of compromise.</p></li>
 </ul>
+</section>
+<section id="establish-persistence">
+<h3>Establish Persistence<a class="headerlink" href="#establish-persistence" title="Link to this heading">#</a></h3>
+<p>Persistence mechanisms are backup access methods installed to maintain control even if the primary access vector is discovered and remediated.</p>
+<p><strong>Why is it needed?</strong></p>
+<p>With domain compromise, maintaining access is critical. If your Domain Administrator account is discovered and disabled, persistence ensures you can regain entry. This demonstrates the true severity of domain compromise and the difficulty of eradicating an attacker with full AD control.</p>
+<p><strong>Techniques:</strong></p>
+<ul class="simple">
+<li><p><strong>Create a Domain Administrator account</strong>: A dedicated DA account serves as a backup entry point. This can be useful for demonstrating persistence capabilities. However, <strong>DO NOT FORGET to delete it</strong>. Remember that persistence mechanisms should be removed after testing, and all persistence activities should be documented with explicit client approval. If persistence goes undetected, this must be reported as a finding.</p></li>
+<li><p><strong>Create a Golden Ticket</strong>: A Golden Ticket (a forged Kerberos TGT) provides long-term, difficult-to-detect access even if credentials are changed or accounts are disabled. This demonstrates the severity of domain compromise.</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ntds-dumping.html">Dumping the NTDS.dit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="golden-ticket.html">Golden Ticket</a></li>
+</ul>
+</div>
+</section>
 </section>
 </section>
 
@@ -450,20 +428,20 @@ ls<span class="w"> </span>/mnt/sysvol/Policies/*/User/<span class="w"> </span><s
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lnk-file-attacks.html"
+       href="../post-compromise-attacks/gpp-cPassword-attacks.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">LNK File Attacks</p>
+        <p class="prev-next-title">GPP cPassword Attacks</p>
       </div>
     </a>
     <a class="right-next"
-       href="../post-domain-compromise-attacks/index.html"
+       href="ntds-dumping.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Post Domain Compromise Attacks</p>
+        <p class="prev-next-title">Dumping the NTDS.dit</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -485,8 +463,12 @@ ls<span class="w"> </span>/mnt/sysvol/Policies/*/User/<span class="w"> </span><s
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-position-and-goals">Starting Position and Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">Methodology</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maximize-value-to-the-client">Maximize Value to the Client</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#establish-persistence">Establish Persistence</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

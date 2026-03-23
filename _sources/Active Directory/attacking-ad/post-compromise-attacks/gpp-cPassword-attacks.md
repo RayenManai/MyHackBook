@@ -29,7 +29,7 @@ mount -t cifs //<domain_controller>\SYSVOL /mnt/sysvol -o username=<user>,passwo
 grep -r "cPassword" /mnt/sysvol
 ```
 
-1. Decrypt cPassword Values
+2. Decrypt cPassword Values
 
 Once you identify files with cPassword entries, use tools to decrypt them. Common approaches include:
 

