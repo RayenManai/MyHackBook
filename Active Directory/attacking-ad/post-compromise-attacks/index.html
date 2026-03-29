@@ -358,7 +358,11 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-position-and-goals">Starting Position and Goals</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">Methodology</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lateral-movement">Lateral Movement</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting">Pivoting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting">Pivoting</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#proxychains">Proxychains</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sshuttle">sshuttle</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -399,6 +403,80 @@
 <p>Pivoting is using a compromised system as a stepping stone to reach otherwise inaccessible parts of the network. Unlike lateral movement, which typically stays within the same security zone, pivoting allows attackers to access new network segments or restricted environments.</p>
 <p><strong>Why is it needed?</strong></p>
 <p>Corporate networks are often segmented. An attacker may compromise a user workstation in the corporate VLAN but needs to pivot through it to reach the data center subnet, OT/ICS networks, or domain controllers behind firewalls.</p>
+<p><strong>Situation and Use Case</strong></p>
+<p>Consider a practical scenario: You have compromised a machine in the <code class="docutils literal notranslate"><span class="pre">10.10.155.0/24</span></code> network, but this compromised machine has two network interfaces — one on your accessible network and another on an isolated <code class="docutils literal notranslate"><span class="pre">10.10.10.0/24</span></code> network that you cannot directly reach from your attacker machine. This segmentation is intentional and designed to protect critical systems.</p>
+<p>Rather than installing offensive tools on the compromised machine (which increases the risk of detection), you can utilize it as a proxy to pivot into the isolated network. This approach allows you to:</p>
+<ul class="simple">
+<li><p>Run reconnaissance and attacks from your attacker machine</p></li>
+<li><p>Minimize the footprint of tools on compromised systems</p></li>
+<li><p>Leverage your familiar tools and techniques</p></li>
+<li><p>Work around network segmentation and firewall rules</p></li>
+</ul>
+<p><strong>Methods and Tools</strong></p>
+<section id="proxychains">
+<h4>Proxychains<a class="headerlink" href="#proxychains" title="Link to this heading">#</a></h4>
+<p>Proxychains is a tool that intercepts network calls in Linux and routes them through a SOCKS proxy. When you prepend <code class="docutils literal notranslate"><span class="pre">proxychains</span></code> to any command, it forces that command’s traffic through your configured proxy instead of using your direct network connection. This allows you to route commands through the compromised machine as if you were attacking from inside the isolated network.</p>
+<p><strong>How it works:</strong></p>
+<ol class="arabic simple">
+<li><p>You establish an SSH tunnel with a SOCKS proxy on the compromised machine</p></li>
+<li><p>Proxychains intercepts traffic from your tools and routes it through this tunnel</p></li>
+<li><p>The compromised machine forwards the traffic to the isolated network</p></li>
+<li><p>Responses come back through the same tunnel</p></li>
+</ol>
+<p><strong>Setup:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, view/edit the proxychains configuration file</span>
+cat<span class="w"> </span>/etc/proxychains4.conf
+
+<span class="c1"># Ensure this SOCKS proxy line is present (or add it):</span>
+<span class="c1"># socks4 127.0.0.1 9050</span>
+</pre></div>
+</div>
+<p>The configuration file tells proxychains where to send the traffic. <code class="docutils literal notranslate"><span class="pre">127.0.0.1:9050</span></code> is your local machine (localhost on port 9050).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Establish an SSH tunnel with dynamic port forwarding from the compromised machine</span>
+ssh<span class="w"> </span>-f<span class="w"> </span>-N<span class="w"> </span>-D<span class="w"> </span><span class="m">9050</span><span class="w"> </span>-i<span class="w"> </span>pivot<span class="w"> </span>root@10.10.155.5
+</pre></div>
+</div>
+<p><strong>Breaking down this SSH command:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ssh</span></code> - SSH client</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-f</span></code> - Run in background (forks after authentication)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-N</span></code> - Don’t execute any remote command (just forward ports)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">9050</span></code> - Create a SOCKS proxy on localhost port 9050 that tunnels to the remote machine</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-i</span> <span class="pre">pivot</span></code> - Use the private key file named “pivot” for authentication</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">root&#64;10.10.155.5</span></code> - Connect as root user to the compromised machine at 10.10.155.5</p></li>
+</ul>
+<p>Once this tunnel is established, anything you send to <code class="docutils literal notranslate"><span class="pre">127.0.0.1:9050</span></code> goes through the SSH tunnel to the compromised machine, where it can then access the <code class="docutils literal notranslate"><span class="pre">10.10.10.0/24</span></code> network.</p>
+<p><strong>Usage Examples:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Network reconnaissance</span>
+proxychains<span class="w"> </span>nmap<span class="w"> </span>-p88<span class="w"> </span><span class="m">10</span>.10.10.255
+proxychains<span class="w"> </span>nmap<span class="w"> </span><span class="m">10</span>.10.10.255<span class="w"> </span>-sT
+
+<span class="c1"># Active Directory attacks</span>
+proxychains<span class="w"> </span>impacket-GetUserSPNs<span class="w"> </span>MARVEL.local/fcastle:Password1!<span class="w"> </span>-dc-ip<span class="w"> </span><span class="m">10</span>.10.10.255<span class="w"> </span>-request
+
+<span class="c1"># Remote Desktop access</span>
+proxychains<span class="w"> </span>xfreerdp<span class="w"> </span>/u:administrator<span class="w"> </span>/p:<span class="s1">&#39;Hacker321!&#39;</span><span class="w"> </span>/v:10.10.10.255
+
+<span class="c1"># Web applications</span>
+proxychains<span class="w"> </span>firefox
+</pre></div>
+</div>
+</section>
+<section id="sshuttle">
+<h4>sshuttle<a class="headerlink" href="#sshuttle" title="Link to this heading">#</a></h4>
+<p>Sshuttle creates a transparent proxy tunnel via SSH, making the pivot network feel like a directly connected subnet. This approach is often more seamless than proxychains for traditional commands.</p>
+<p><strong>Setup:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Establish transparent tunnel</span>
+sshuttle<span class="w"> </span>-r<span class="w"> </span>root@10.10.155.5<span class="w"> </span><span class="m">10</span>.10.10.0/24<span class="w"> </span>--ssh-cmd<span class="w"> </span><span class="s2">&quot;ssh -i pivot&quot;</span>
+</pre></div>
+</div>
+<p><strong>Usage:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># With sshuttle established, commands communicate directly with the new network</span>
+nmap<span class="w"> </span><span class="m">10</span>.10.10.255<span class="w"> </span>-p88
+
+<span class="c1"># All traffic to 10.10.10.0/24 transparently tunnels through the pivot point</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="pass-attacks.html">Pass Attacks</a></li>
@@ -409,6 +487,7 @@
 <li class="toctree-l1"><a class="reference internal" href="gpp-cPassword-attacks.html">GPP cPassword Attacks</a></li>
 </ul>
 </div>
+</section>
 </section>
 </section>
 </section>
@@ -463,7 +542,11 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-position-and-goals">Starting Position and Goals</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology">Methodology</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lateral-movement">Lateral Movement</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting">Pivoting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pivoting">Pivoting</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#proxychains">Proxychains</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sshuttle">sshuttle</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
